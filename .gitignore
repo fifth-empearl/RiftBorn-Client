@@ -25,7 +25,15 @@ static/
 cmake-build-*/
 vcpkg_installed/
 vc17/
-vc18/
+vc18/*
+!vc18/
+!vc18/otclient.sln
+!vc18/otclient.vcxproj
+!vc18/otclient.vcxproj.filters
+!vc18/arch32.props
+!vc18/debug.props
+!vc18/release.props
+!vc18/settings.props
 /build-emscripten-web/
 /bin/
 /data/sounds/*/
@@ -79,6 +87,7 @@ ipch/
 *.cachefile
 *.VC.db
 *.filters
+!vc18/otclient.vcxproj.filters
 
 # Visual Studio profiler
 *.psess
