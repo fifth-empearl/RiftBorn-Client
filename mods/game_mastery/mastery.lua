@@ -295,7 +295,7 @@ function Mastery.updateActiveEffects()
 							end
 						elseif effect.haste then
 							local totalHaste = effect.value * effectMultiplier
-							local halfHaste = math.floor(totalHaste / 2)
+							local halfHaste = math.floor(totalHaste)
 							addEffectValue(effectName, halfHaste)
 						else
 							if effect.params then
