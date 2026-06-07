@@ -1,0 +1,784 @@
+
+PocketEntry < UIWidget
+  margin: 2
+  border-width: 3
+  border-color: #272727
+  height: 160
+  image-source: images/panel-bg
+  image-border: 9
+
+  UIWidget
+    id : pocketTooltip
+    image-source: images/tooltip
+    anchors.top: parent.top
+    anchors.right: parent.right
+    margin-right: 10
+    margin-top: 10
+    size: 16 16
+
+  CheckBoxCircle
+    id: slotOneCheck
+    anchors.top: slotOne.top
+    anchors.horizontalCenter: slotOne.horizontalCenter
+    margin-top: -25
+
+  UIWidget
+    id : slotOne
+    image-source: images/emptySlotBBg
+    anchors.verticalCenter: parent.verticalCenter
+    anchors.right: slotTwo.left
+    margin-right: 30
+    margin-top: 10
+    size: 90 90
+    image-color: white
+    UIItem
+      id: slotSprite
+      item-id: 
+      anchors.centerIn: parent
+      size: 32 32
+      virtual: true
+
+  CheckBoxCircle
+    id: slotTwoCheck
+    anchors.top: slotTwo.top
+    anchors.horizontalCenter: slotTwo.horizontalCenter
+    margin-top: -25
+
+  UIWidget
+    id : slotTwo
+    image-source: images/emptySlotBBg
+    anchors.verticalCenter: parent.verticalCenter
+    anchors.right: parent.horizontalCenter
+    margin-right: 15
+    margin-top: 10
+    size: 90 90
+    image-color: white
+    UIItem
+      id: slotSprite
+      item-id: 
+      anchors.centerIn: parent
+      size: 32 32
+      virtual: true
+
+  CheckBoxCircle
+    id: slotThreeCheck
+    anchors.top: slotThree.top
+    anchors.horizontalCenter: slotThree.horizontalCenter
+    margin-top: -25
+
+  UIWidget
+    id : slotThree
+    image-source: images/emptySlotBBg
+    anchors.verticalCenter: parent.verticalCenter
+    anchors.left: parent.horizontalCenter
+    margin-left: 15
+    margin-top: 10
+    size: 90 90
+    image-color: white
+    UIItem
+      id: slotSprite
+      item-id: 
+      anchors.centerIn: parent
+      size: 32 32
+      virtual: true
+
+  CheckBoxCircle
+    id: slotFourCheck
+    anchors.top: slotFour.top
+    anchors.horizontalCenter: slotFour.horizontalCenter
+    margin-top: -25
+
+  UIWidget
+    id : slotFour
+    image-source: images/emptySlotBBg
+    anchors.verticalCenter: parent.verticalCenter
+    anchors.left: slotThree.right
+    margin-left: 30
+    margin-top: 10
+    size: 90 90
+    image-color: white
+    UIItem
+      id: slotSprite
+      item-id: 
+      anchors.centerIn: parent
+      size: 32 32
+      virtual: true
+
+  Label
+    id: RuneWord
+    anchors.horizontalCenter: parent.horizontalCenter
+    anchors.bottom: parent.bottom
+    margin-bottom: 20
+    text:
+
+  UIButton
+    id: notUnlockedMask
+    anchors.fill: parent
+    opacity: 0.40
+    text: Unlock
+    font: Verdana Bold-11px
+    background-color: grey
+    border: 2 black
+
+RuneEntry < UIWidget
+  border-width: 3
+  border-color: #272727
+  height: 50
+  image-source: images/panel-bg
+  image-border: 9
+  $focus:
+    border-width: 1
+    border-color: #f5971e
+
+  UIItem
+    id: runeSprite
+    item-id: 11616
+    anchors.verticalCenter: parent.verticalCenter
+    anchors.left: parent.left
+    margin-left: 10
+    size: 32 32
+    virtual: true
+
+  Label
+    id: runeName
+    text: Szu
+    anchors.top: runeSprite.top
+    anchors.left: runeSprite.right
+    margin-left: 40
+    margin-top: 2
+    width: 100
+
+  Label
+    id: runeQty
+    text: Quantity: 3
+    anchors.top: runeName.bottom
+    anchors.left: runeSprite.right
+    margin-left: 30
+    width: 100
+
+RunePediaEntry < UIWidget
+  border-width: 3
+  border-color: #272727
+  image-source: images/panel-bg
+  image-border: 9
+
+  UIWidget
+    id : runeEntry
+    image-source: images/fullSlotBBg
+    anchors.top: parent.top
+    anchors.horizontalCenter: parent.horizontalCenter
+    margin-top: 10
+    size: 90 90
+    image-color: white
+    UIItem
+      id: runeSprite
+      item-id: 
+      anchors.centerIn: parent
+      size: 32 32
+      virtual: true
+
+  Label
+    id: runeName
+    text: Szu
+    anchors.top: runeEntry.bottom
+    anchors.right: parent.right
+    anchors.left: parent.left
+    margin-top: 10
+    text-align: center
+    text-auto-resize: true
+    text-wrap: true
+
+  Label
+    id: runeBuff
+    anchors.top: runeName.bottom
+    anchors.right: parent.right
+    anchors.left: parent.left
+    margin-top: 0
+    text-align: center
+    text-auto-resize: true
+    text-wrap: true
+
+RuneWordPediaEntry < UIWidget
+  border-width: 3
+  border-color: #272727
+  image-source: images/panel-bg
+  image-border: 9
+  height: 246
+
+  UIWidget
+    id : runeWordRuneOneEntry
+    image-source: images/selectedSlotBBg
+    anchors.top: parent.top
+    anchors.right: runeWordRuneTwoEntry.left
+    margin-top: 10
+    margin-right: 20
+    size: 90 90
+    image-color: white
+    UIItem
+      id: runeOneSprite
+      item-id: 
+      anchors.centerIn: parent
+      size: 32 32
+      virtual: true
+
+  UIWidget
+    id : runeWordRuneTwoEntry
+    image-source: images/selectedSlotBBg
+    anchors.top: parent.top
+    anchors.right: parent.horizontalCenter
+    margin-top: 10
+    margin-right: 10
+    size: 90 90
+    image-color: white
+    UIItem
+      id: runeTwoSprite
+      item-id: 
+      anchors.centerIn: parent
+      size: 32 32
+      virtual: true
+
+  UIWidget
+    id : runeWordRuneThreeEntry
+    image-source: images/selectedSlotBBg
+    anchors.top: parent.top
+    anchors.left: parent.horizontalCenter
+    margin-top: 10
+    margin-left: 10
+    size: 90 90
+    image-color: white
+    UIItem
+      id: runeThreeSprite
+      item-id: 
+      anchors.centerIn: parent
+      size: 32 32
+      virtual: true
+
+  UIWidget
+    id : runeWordRuneFourEntry
+    image-source: images/selectedSlotBBg
+    anchors.top: parent.top
+    anchors.left: runeWordRuneThreeEntry.right
+    margin-top: 10
+    margin-left: 20
+    size: 90 90
+    image-color: white
+    UIItem
+      id: runeFourSprite
+      item-id: 
+      anchors.centerIn: parent
+      size: 32 32
+      virtual: true
+
+  Label
+    id: runeWordName
+    text: Szu
+    anchors.top: parent.top
+    anchors.right: parent.right
+    anchors.left: parent.left
+    margin-top: 110
+    text-align: center
+    text-auto-resize: true
+    text-wrap: true
+
+  TextList
+    id: runeWordBuff
+    anchors.top: runeWordName.bottom
+    anchors.right: parent.right
+    anchors.left: parent.left
+    anchors.bottom: parent.bottom
+    border-width: 2
+    margin-left: 10
+    margin-right: 20
+    margin-bottom: 10
+    margin-top: 10
+    clipping: false
+    vertical-scrollbar: runeWordBuffScrollBar
+
+    UIWidget
+      id: text
+      text-auto-resize: true
+      text-wrap: true
+      text-offset: 6 4
+      padding: 3
+
+  VerticalScrollBar
+    id: runeWordBuffScrollBar
+    anchors.top: runeWordBuff.top
+    anchors.bottom: runeWordBuff.bottom
+    anchors.left: runeWordBuff.right
+    step: 20
+    pixels-scroll: true
+
+MessageBase < UIWidget
+  !text: tr('.')
+  font: Verdana Bold-11px
+  text-align: top
+  text-offset: 0 5
+  size: 300 220
+  image-source: /images/ui/window
+  image-border: 6
+  image-border-top: 27
+  anchors.centerIn: parent
+  visible: false
+
+  Button
+    id: ConfirmButton
+    anchors.horizontalCenter: parent.horizontalCenter
+    anchors.bottom: parent.bottom
+    margin-bottom: 20
+    !text: tr("OK")
+
+  Label
+    id: Text
+    anchors.top: parent.top
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.bottom:  ConfirmButton.top
+    margin-top: 40
+    margin-left: 20
+    margin-right: 20
+    margin-bottom: 10
+    text-align: center
+    text-wrap: true
+
+ConfirmMessageBase < UIWidget
+  !text: tr('.')
+  font: Verdana Bold-11px
+  text-align: top
+  text-offset: 0 5
+  size: 300 220
+  image-source: /images/ui/window
+  image-border: 6
+  image-border-top: 27
+  anchors.centerIn: parent
+  visible: false
+
+  Button
+    id: ConfirmButton
+    anchors.right: parent.right
+    anchors.bottom: parent.bottom
+    margin-bottom: 20
+    margin-right: 20
+    !text: tr("Yes")
+
+  Button
+    id: CancelButton
+    anchors.left: parent.left
+    anchors.bottom: parent.bottom
+    margin-bottom: 20
+    margin-left: 20
+    !text: tr("No")
+
+  UIWidget
+    id: Text
+    anchors.top: parent.top
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.bottom: RefundAmountPanel.top
+    margin-top: 40
+    margin-left: 20
+    margin-right: 20
+    margin-bottom: 8
+    text-wrap: true
+
+  UIWidget
+    id: RefundAmountPanel
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.bottom: ConfirmButton.top
+    margin-left: 20
+    margin-right: 20
+    margin-bottom: 12
+    height: 42
+    visible: false
+
+    Label
+      id: AmountLabel
+      anchors.top: parent.top
+      anchors.left: parent.left
+      anchors.right: parent.right
+      text-align: center
+      text: Amount: 1
+
+    HorizontalScrollBar
+      id: AmountSlider
+      anchors.top: AmountLabel.bottom
+      anchors.left: parent.left
+      anchors.right: parent.right
+      margin-top: 8
+      minimum: 1
+      maximum: 1
+      step: 1
+
+LockUI < Panel
+  anchors.fill: parent
+  opacity: 0.60
+  background-color: #000000
+  margin: -12
+  phantom: false
+  visible: false
+
+MainWindow
+  id: RuneWordsUI
+  size: 895 660
+  !text: tr('RunesWords')
+  @onEscape: modules.game_runewords.RuneWords.hide()
+
+  UIWidget
+    image-source: images/magicSwirlsL
+    size: 192 146
+    anchors.top: parent.top
+    anchors.left: parent.left
+    margin-left: -10
+    margin-top: -10
+    phantom: true
+
+  UIWidget
+    image-source: images/magicSwirls
+    size: 192 146
+    anchors.horizontalCenter: parent.horizontalCenter
+    anchors.top: parent.top
+    margin-right: 85
+    margin-top: -20
+    phantom: true
+
+  UIWidget
+    image-source: images/magicSwirls
+    size: 400 300
+    anchors.horizontalCenter: parent.horizontalCenter
+    anchors.bottom: parent.bottom
+    margin-left: -60
+    margin-bottom: -60
+    phantom: true
+
+  UIWidget
+    image-source: images/magicSwirlsL
+    size: 400 200
+    anchors.verticalCenter: parent.verticalCenter
+    anchors.left: parent.left
+    margin-left: -10
+    margin-top: 25
+    phantom: true
+
+  UIWidget
+    image-source: images/magicSwirlsR
+    size: 197 139
+    anchors.bottom: parent.bottom
+    anchors.right: parent.right
+    margin-right: -10
+    phantom: true
+
+  UIWidget
+    image-source: images/magicSwirls
+    anchors.top: parent.top
+    anchors.right: parent.right
+    margin-top: 25
+    margin-right: 50
+    phantom: true
+
+  UIWidget
+    image-source: images/sides
+    size: 150 150
+    anchors.top: parent.top
+    anchors.left: parent.left
+    margin-top: -5
+    margin-left: 5
+    phantom: true
+
+  UIWidget
+    image-source: images/sides
+    size: 150 150
+    anchors.top: parent.top
+    anchors.right: parent.right
+    margin-top: -5
+    margin-right: 5
+    phantom: true
+
+  Button
+    id: RuneWordsButton
+    anchors.right: parent.horizontalCenter
+    anchors.top: parent.top
+    margin-right: 15
+    margin-top: 5
+    font: Verdana Bold-11px
+    !text: tr('RuneWords')
+    size: 100 20
+    image-color: gray
+    opacity: 0.7
+    border-width-bottom: 0
+
+    $checked:
+      opacity: 1
+      image-color: white
+      border-width-bottom: 1
+      border-color: #f4ca16
+
+  Button
+    id: RunesPediaButton
+    anchors.left: parent.horizontalCenter
+    anchors.top: parent.top
+    margin-left: 15
+    margin-top: 5
+    font: Verdana Bold-11px
+    !text: tr('RunePedia')
+    size: 100 20
+    image-color: gray
+    opacity: 0.7
+    border-width-bottom: 0
+
+    $checked:
+      opacity: 1
+      image-color: white
+      border-width-bottom: 1
+      border-color: #f4ca16
+//
+  FlatPanel
+    id: RuneWordsInternalBoard
+    anchors.fill: parent
+    margin-top: 60
+    margin-right: 15
+    margin-left: 15
+    margin-bottom: 35
+    image-source: images/bg
+    border-width: 1
+    border-color: #8e784d
+
+//////////////runesPanel Start//////////////
+    UIScrollArea
+      id: runesPanel
+      image-source: /images/ui/panel_side
+      image-border: 1
+      anchors.right: parent.horizontalCenter
+      anchors.top: parent.top
+      anchors.left: parent.left
+      anchors.bottom: parent.bottom
+      margin-top: 10
+      margin-bottom: 10
+      margin-left: 10
+      margin-right: 200
+      padding: 4
+      layout:
+        type: verticalBox
+        text-align: left
+        spacing: 1
+      vertical-scrollbar: runesScrollBar
+
+    UIWidget
+      id: runesEmptyPanel
+      anchors.fill: runesPanel
+      background-color: #000000
+      opacity: 0.5
+      visible: false
+      phantom: true
+
+      Label
+        anchors.centerIn: parent
+        font: Verdana Bold-11px
+        color: #FFFFFF
+        text-align: center
+        text: Runewords inventory empty
+
+    VerticalScrollBar
+      id: runesScrollBar
+      anchors.top: runesPanel.top
+      anchors.bottom: runesPanel.bottom
+      anchors.right: runesPanel.right
+      margin-right: -10
+      pixels-scroll: true
+      step: 50
+//////////////runesPanel End//////////////
+
+    UIButton
+      id: instilButton
+      anchors.left: runesScrollBar.right
+      anchors.right: pocketsPanel.left
+      anchors.top: parent.top
+      margin-top: 120
+      image-source: images/instilButton
+      image-color: white
+      opacity: 1
+      $pressed:
+        image-color: #63615a
+      $hover:
+        opacity: 0.7
+
+    UIButton
+      id: dissipateButton
+      anchors.left: runesScrollBar.right
+      anchors.right: pocketsPanel.left
+      anchors.top: instilButton.top
+      margin-top: 100
+      image-source: images/dissipateButton
+      image-color: white
+      opacity: 1
+      $pressed:
+        image-color: #63615a
+      $hover:
+        opacity: 0.7
+
+    UIButton
+      id: refundButton
+      anchors.left: runesScrollBar.right
+      anchors.right: pocketsPanel.left
+      anchors.top: dissipateButton.top
+      margin-top: 100
+      image-source: images/refundButton
+      image-color: white
+      opacity: 1
+      $pressed:
+        image-color: #63615a
+      $hover:
+        opacity: 0.7
+
+//////////////pocketsPanel Start//////////////
+    UIScrollArea
+      id: pocketsPanel
+      image-source: /images/ui/panel_side
+      image-border: 1
+      anchors.right: parent.right
+      anchors.top: parent.top
+      anchors.left: parent.horizontalCenter
+      anchors.bottom: parent.bottom
+      margin-top: 10
+      margin-bottom: 10
+      margin-left: -115
+      margin-right: 20
+      padding: 3
+      layout:
+        type: verticalBox
+        text-align: left
+        spacing: 1
+      vertical-scrollbar: pocketsScrollBar
+
+    VerticalScrollBar
+      id: pocketsScrollBar
+      anchors.top: pocketsPanel.top
+      anchors.bottom: pocketsPanel.bottom
+      anchors.right: pocketsPanel.right
+      margin-right: -10
+      pixels-scroll: true
+      step: 50
+//////////////pocketsPanel End//////////////
+//
+  FlatPanel
+    id: RunePediaInternalBoard
+    anchors.fill: parent
+    margin-top: 100
+    margin-right: 20
+    margin-left: 20
+    margin-bottom: 45
+    image-source: images/bg
+    border-width: 1
+    border-color: #8e784d
+    visible: false
+
+//////////////runesPediaPanel Start//////////////
+    UIScrollArea
+      id: runesPediaPanel
+      image-source: /images/ui/panel_side
+      image-border: 1
+      anchors.left: parent.left
+      anchors.top: parent.top
+      anchors.right: parent.horizontalCenter
+      anchors.bottom: parent.bottom
+      margin-top: 10
+      margin-bottom: 10
+      margin-left: 15
+      margin-right: 60
+      padding: 5
+      layout:
+        type: grid
+        cell-size: 160 160
+        cell-spacing: 6
+        flow: true
+      vertical-scrollbar: runesPediaScrollBar
+
+    VerticalScrollBar
+      id: runesPediaScrollBar
+      anchors.top: runesPediaPanel.top
+      anchors.bottom: runesPediaPanel.bottom
+      anchors.right: runesPediaPanel.right
+      margin-right: -10
+      pixels-scroll: true
+      step: 50
+//////////////runesPediaPanel End//////////////
+
+//////////////runeWordsPediaPanel Start//////////////
+    UIScrollArea
+      id: runeWordsPediaPanel
+      image-source: /images/ui/panel_side
+      image-border: 1
+      anchors.right: parent.right
+      anchors.top: parent.top
+      anchors.left: parent.horizontalCenter
+      anchors.bottom: parent.bottom
+      margin-top: 10
+      margin-bottom: 10
+      margin-left: -45
+      margin-right: 20
+      padding: 5
+      layout:
+        type: verticalBox
+        text-align: left
+        spacing: 1
+      vertical-scrollbar: runeWordsPediaScrollBar
+
+    VerticalScrollBar
+      id: runeWordsPediaScrollBar
+      anchors.top: runeWordsPediaPanel.top
+      anchors.bottom: runeWordsPediaPanel.bottom
+      anchors.right: runeWordsPediaPanel.right
+      margin-right: -10
+      pixels-scroll: true
+      step: 50
+//////////////runeWordsPediaPanel End//////////////
+
+
+  TextEdit
+    id: pediaRunesSearch
+    anchors.top: RunePediaInternalBoard.bottom
+    anchors.left: RunePediaInternalBoard.left
+    margin-left: 3
+    margin-top: 10
+    placeholder: Search Runes
+    placeholder-color: #6E706F
+    width: 100
+    visible: false
+
+  TextEdit
+    id: pediaRuneWordsSearch
+    anchors.top: RunePediaInternalBoard.bottom
+    anchors.left: pediaRunesSearch.right
+    margin-left: 270
+    margin-top: 10
+    placeholder: Search RuneWords
+    placeholder-color: #6E706F
+    width: 135
+    visible: false
+
+  Button
+    id: totalBuffsButton
+    anchors.left: parent.left
+    anchors.bottom: parent.bottom
+    margin-bottom: 0
+    margin-left: 20
+    !text: tr('Total Buffs')
+    width: 100
+
+  Button
+    id: CloseButton
+    anchors.right: parent.right
+    anchors.bottom: parent.bottom
+    margin-bottom: 0
+    margin-right: 20
+    !text: tr('Close')
+    @onClick: modules.game_runewords.RuneWords.hide()
+
+  LockUI
+    id: LockUI
+
+  MessageBase
+    id: MessageBase
+
+  ConfirmMessageBase
+    id: ConfirmMessageBase

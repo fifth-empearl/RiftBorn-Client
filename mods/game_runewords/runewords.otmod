@@ -1,0 +1,9 @@
+Module
+  name: game_runewords
+  description: RuneWords
+  author: Fifth
+  sandboxed: true
+  autoload: true
+  scripts: [ 1_data, runewords ]
+  @onLoad: RuneWords.init()
+  @onUnload: RuneWords.terminate()
