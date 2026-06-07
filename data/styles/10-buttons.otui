@@ -29,6 +29,24 @@ Button < UIButton
     opacity: 0.8
     change-cursor-image: false
 
+RoundedButton < UIButton
+  image-source: /images/ui/button_rounded
+  image-clip: 0 0 22 23
+  image-border: 4
+  size: 43 20
+
+  $hover !disabled:
+    image-clip: 0 23 22 23
+
+  $pressed:
+    image-clip: 0 46 22 23
+
+  $disabled:
+    image-clip: 0 46 22 23
+    color: #dfdfdf88
+    opacity: 0.8
+    change-cursor-image: false
+
 TabButton < UIButton
   size: 22 23
   image-source: /images/ui/tabbutton_rounded
