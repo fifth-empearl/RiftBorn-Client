@@ -1,0 +1,246 @@
+
+ProgressiveTaskTrackerCreature < UICreature
+  margin: 2
+  margin-left: 5
+  size: 35 35
+  animate: true
+  old-scaling: true
+
+ProgressiveTaskTrackerItem < UIItem
+  size: 32 32
+  virtual: true
+  shadow: true
+  phantom: false
+
+SingleItemTrackerEntry < Panel
+  width: 50
+  margin: 3
+  background-color: #edddc060
+  phantom: false
+  ProgressiveTaskTrackerItem
+    id: item
+    anchors.top: parent.top
+    anchors.horizontalCenter: parent.horizontalCenter
+    phantom: false
+  FlatPanel
+    id: info
+    anchors.top: item.bottom
+    anchors.right: parent.right
+    anchors.left: parent.left
+    anchors.bottom: parent.bottom
+
+MultipleItemTrackerEntry < Panel
+  height: 50
+  margin: 3
+  background-color: #edddc060
+  phantom: false
+  Panel
+    id: item
+    height: 32
+    anchors.top: parent.top
+    anchors.left: parent.left
+    phantom: false
+  FlatPanel
+    id: info
+    anchors.top: item.bottom
+    anchors.right: parent.right
+    anchors.left: parent.left
+    anchors.bottom: parent.bottom
+
+ProgressiveTaskTrackerItemsEntry < Panel
+  height: 64
+  margin: 2
+  margin-left: 5
+  margin-right: 5
+
+  UIScrollArea
+    id: itemsPanel
+    anchors.top: parent.top
+    anchors.right: parent.right
+    anchors.left: parent.left
+    height: 50
+    border-width: 2
+    border-color: #8e784d
+    background-color: #7d725e60
+    horizontal-scrollbar: itemsPanelHorizontalScrollBar
+    layout:
+      type: horizontalBox
+      spacing: 1
+
+  HorizontalScrollBar
+    id: itemsPanelHorizontalScrollBar
+    anchors.left: itemsPanel.left
+    anchors.right: itemsPanel.right
+    anchors.bottom: itemsPanel.bottom
+    margin-bottom: -14
+    pixels-scroll: true
+    height: 13
+    step: 50
+
+ProgressiveTaskTrackerKillsEntry < Panel
+  height: 75
+  margin: 2
+  margin-left: 5
+  margin-right: 5
+
+  UIScrollArea
+    id: creaturesPanel
+    anchors.top: parent.top
+    anchors.right: parent.right
+    anchors.left: parent.left
+    height: 40
+    border-width: 2
+    border-color: #8e784d
+    background-color: #7d725e60
+    horizontal-scrollbar: creaturesPanelHorizontalScrollBar
+    layout:
+      type: horizontalBox
+      spacing: 2
+
+  HorizontalScrollBar
+    id: creaturesPanelHorizontalScrollBar
+    anchors.left: creaturesPanel.left
+    anchors.right: creaturesPanel.right
+    anchors.bottom: creaturesPanel.bottom
+    margin-bottom: -14
+    pixels-scroll: true
+    height: 13
+    step: 50
+
+  ProgressBar
+    id: progressBar
+    anchors.top: creaturesPanelHorizontalScrollBar.bottom
+    anchors.right: parent.right
+    anchors.left: parent.left
+    margin-top: 5
+    background-color: #4A2F39
+    border: 1 #866748
+    height: 16
+
+  Label
+    id: percentProgressLabel
+    anchors.verticalCenter: progressBar.verticalCenter
+    anchors.left: progressBar.left
+    margin-left: 10
+    text-auto-resize: true
+    shadow: true
+
+  Label
+    id: rawProgressLabel
+    anchors.verticalCenter: progressBar.verticalCenter
+    anchors.right: progressBar.right
+    margin-right: 10
+    text-auto-resize: true
+    shadow: true
+
+ProgressiveTaskTrackerEntry < UIWidget
+  border-width: 2
+  border-color: #edddc060
+  phantom: true
+  margin: 2
+  padding: 3
+  layout:
+    type: verticalBox
+    fit-children: true
+
+  Panel
+    id: taskName
+    shadow: true
+    margin: 5
+    text-auto-resize: true
+    text-wrap: true
+    width: 120
+    padding: 5
+    color: #edddc0
+    background-color: #00000060
+    shadow: true
+    phantom: false
+
+  Panel
+    id: toggleDisplayPanel
+    height: 25
+    margin-bottom: 5
+    margin-right: 10
+    margin-left: 10
+    RoundedButton
+      id: toggleKills
+      anchors.left: parent.left
+      anchors.top: parent.top
+      text: Kills
+      padding: 5
+      width: 50
+      height: 25
+    RoundedButton
+      id: toggleItems
+      anchors.right: parent.right
+      anchors.top: parent.top
+      text: Items
+      padding: 5
+      width: 50
+      height: 25
+
+  Panel
+    id: killsRequirmentsPanel
+    margin-top: 5
+    visible: false
+    layout:
+      type: verticalBox
+      fit-children: true
+      spacing: 5
+
+  Panel
+    id: itemsRequirmentsPanel
+    margin-top: 5
+    visible: false
+    layout:
+      type: verticalBox
+      fit-children: true
+      spacing: 5
+
+MiniWindow
+  id: progressiveTasksTrackerWindow
+  &save: true
+  &autoOpen: false
+
+  UIWidget
+    id: miniwindowIcon
+    anchors.top: miniwindowHeader.top
+    anchors.left: miniwindowHeader.left
+    margin-top: 2
+    margin-left: 4
+    size: 12 12
+    image-source: images/ui/sIcon
+    image-rect: 0 0 12 12
+    image-smooth: false
+
+  Label
+    id: miniwindowTitle
+    anchors.top: miniwindowHeader.top
+    anchors.left: miniwindowHeader.left
+    anchors.right: miniwindowHeader.right
+    margin-top: 2
+    margin-left: 20
+    margin-right: 50
+    font: verdana-11px-monochrome
+    height: 13
+    color: #9d9d9dff
+    !text: tr('P. T. Tracker')
+
+  MiniWindowContents
+    anchors.top: parent.top
+    anchors.left: parent.left
+    anchors.right: miniwindowScrollBar.left
+    margin: 5
+    margin-top: 24
+    margin-bottom: 10
+
+    Panel
+      id: trackedTasksPanel
+      anchors.left: parent.left
+      anchors.right: parent.right
+      anchors.top: parent.top
+      margin-top: 10
+      layout:
+        type: verticalBox
+        fit-children: true
+        spacing: 2

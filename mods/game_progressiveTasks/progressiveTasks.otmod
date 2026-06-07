@@ -1,0 +1,9 @@
+Module
+  name: game_progressiveTasks
+  description: Progressive Tasks
+  author: Fifth
+  autoload: true
+  sandboxed: true
+  scripts: [ 1_data, progressiveTasks ]
+  @onLoad: ProgressiveTasks.init()
+  @onUnload: ProgressiveTasks.terminate()
