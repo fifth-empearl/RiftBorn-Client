@@ -1,0 +1,75 @@
+TransferLogEntry < UIWidget
+  height: 20
+  background-color: #505050
+  border-width: 1
+  border-color: #D0A92D
+  padding: 2
+
+MainWindow
+  id: transferLogsWindow
+  size: 480 320
+  text: Transfer logs
+  text-align: top
+  visible: false
+  draggable: true
+
+  UIScrollArea
+    id: transferLogsPanel
+    image-source: /images/ui/panel_side
+    image-border: 1
+    anchors.fill: parent
+    margin-right: 10
+    margin-bottom: 35
+    margin-top: 5
+    padding: 5
+    layout:
+      type: verticalBox
+      text-align: left
+      spacing: 2
+    vertical-scrollbar: transferLogsScrollBar
+
+  VerticalScrollBar
+    id: transferLogsScrollBar
+    anchors.top: transferLogsPanel.top
+    anchors.bottom: transferLogsPanel.bottom
+    anchors.right: transferLogsPanel.right
+    margin-right: -10
+    pixels-scroll: true
+    step: 50
+
+  Button
+    id: transferLogsCloseButton
+    anchors.bottom: parent.bottom
+    anchors.right: parent.right
+    margin-bottom: 3
+    margin-right: 10
+    text: Close
+    width: 100
+
+  Button
+    id: transferLogsPrevPage
+    anchors.bottom: parent.bottom
+    anchors.left: parent.left
+    margin-bottom: 3
+    margin-left: 10
+    text: Prev
+    width: 50
+
+  FlatPanel
+    id: transferLogsPagesLabel
+    anchors.bottom: parent.bottom
+    anchors.left: transferLogsPrevPage.right
+    margin-bottom: 5
+    margin-left: 10
+    text: 0/0
+    width: 60
+    height: 20
+
+  Button
+    id: transferLogsNextPage
+    anchors.bottom: parent.bottom
+    anchors.left: transferLogsPagesLabel.right
+    margin-bottom: 3
+    margin-left: 10
+    text: Next
+    width: 50

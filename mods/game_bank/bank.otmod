@@ -1,0 +1,9 @@
+Module
+  name: game_bank
+  description: Custom currency bank
+  author: Fifth
+  autoload: true
+  sandboxed: true
+  scripts: [ 1_data, bank ]
+  @onLoad: Bank.init()
+  @onUnload: Bank.terminate()

@@ -1,0 +1,380 @@
+WithdrawWindow < StaticMainWindow
+  size: 230 140
+  anchors.centerIn: parent
+  !text: tr("Withdraw")
+  visible: false
+  draggable: true
+
+  Label
+    id: currencyLabel
+    anchors.top: parent.top
+    anchors.left: parent.left
+    margin-top: 2
+    font: verdana-11px-rounded
+    text: Currency:
+    text-auto-resize: true
+
+  UIItem
+    id: currencyIcon
+    anchors.top: parent.top
+    anchors.left: currencyLabel.right
+    margin-left: 8
+    size: 24 24
+    virtual: true
+
+  Label
+    id: currencyName
+    anchors.verticalCenter: currencyIcon.verticalCenter
+    anchors.left: currencyIcon.right
+    anchors.right: parent.right
+    margin-left: 6
+    text-auto-resize: false
+    text-wrap: false
+
+  Label
+    id: amountLabel
+    anchors.top: currencyIcon.bottom
+    anchors.left: parent.left
+    margin-top: 10
+    font: verdana-11px-rounded
+    text: Amount:
+    text-auto-resize: true
+
+  TextEdit
+    id: amount
+    anchors.top: amountLabel.top
+    anchors.right: parent.right
+    margin: 0 0 0 10
+    height: 22
+    width: 120
+    padding-top: 3
+
+  Button
+    id: close
+    width: 50
+    anchors.bottom: parent.bottom
+    anchors.right: parent.right
+    text: Close
+
+  Button
+    id: confirm
+    width: 70
+    anchors.bottom: parent.bottom
+    anchors.left: parent.left
+    text: Confirm
+
+DepositWindow < StaticMainWindow
+  size: 230 140
+  anchors.centerIn: parent
+  !text: tr("Deposit")
+  visible: false
+  draggable: true
+
+  Label
+    id: currencyLabel
+    anchors.top: parent.top
+    anchors.left: parent.left
+    margin-top: 2
+    font: verdana-11px-rounded
+    text: Currency:
+    text-auto-resize: true
+
+  UIItem
+    id: currencyIcon
+    anchors.top: parent.top
+    anchors.left: currencyLabel.right
+    margin-left: 8
+    size: 24 24
+    virtual: true
+
+  Label
+    id: currencyName
+    anchors.verticalCenter: currencyIcon.verticalCenter
+    anchors.left: currencyIcon.right
+    anchors.right: parent.right
+    margin-left: 6
+    text-auto-resize: false
+    text-wrap: false
+
+  Label
+    id: amountLabel
+    anchors.top: currencyIcon.bottom
+    anchors.left: parent.left
+    margin-top: 10
+    font: verdana-11px-rounded
+    text: Amount:
+    text-auto-resize: true
+
+  TextEdit
+    id: amount
+    anchors.top: amountLabel.top
+    anchors.right: parent.right
+    margin: 0 0 0 10
+    height: 22
+    width: 120
+    padding-top: 3
+
+  Button
+    id: close
+    width: 50
+    anchors.bottom: parent.bottom
+    anchors.right: parent.right
+    text: Close
+
+  Button
+    id: confirm
+    width: 70
+    anchors.bottom: parent.bottom
+    anchors.left: parent.left
+    text: Confirm
+
+TransferWindow < StaticMainWindow
+  size: 240 195
+  anchors.centerIn: parent
+  !text: tr("Transfer")
+  visible: false
+  draggable: true
+
+  Label
+    id: nameLabel
+    anchors.top: parent.top
+    anchors.left: parent.left
+    margin-top: 5
+    font: verdana-11px-rounded
+    text: Name:
+    text-auto-resize: true
+
+  TextEdit
+    id: name
+    anchors.top: parent.top
+    anchors.right: parent.right
+    margin: 0 0 0 10
+    height: 22
+    width: 130
+    padding-top: 3
+
+  Label
+    id: currencyLabel
+    anchors.top: nameLabel.bottom
+    anchors.left: nameLabel.left
+    margin-top: 13
+    font: verdana-11px-rounded
+    text: Currency:
+    text-auto-resize: true
+
+  UIItem
+    id: currencyIcon
+    anchors.top: name.bottom
+    anchors.left: name.left
+    margin-top: 8
+    size: 24 24
+    virtual: true
+
+  Label
+    id: currencyName
+    anchors.verticalCenter: currencyIcon.verticalCenter
+    anchors.left: currencyIcon.right
+    anchors.right: parent.right
+    margin-left: 6
+    text-auto-resize: false
+    text-wrap: false
+
+  Label
+    id: amountLabel
+    anchors.top: currencyIcon.bottom
+    anchors.left: currencyLabel.left
+    margin-top: 13
+    font: verdana-11px-rounded
+    text: Amount:
+
+  TextEdit
+    id: amount
+    anchors.top: amountLabel.top
+    anchors.right: name.right
+    margin: 0 0 0 10
+    height: 22
+    width: 130
+    padding-top: 3
+
+  CheckBox
+    id: transferAllCheck
+    anchors.top: amount.bottom
+    anchors.horizontalCenter: amount.horizontalCenter
+    text: Transfer all
+    text-offset: 20 0
+    margin-top: 5
+    width: 100
+
+  Button
+    id: close
+    width: 50
+    anchors.bottom: parent.bottom
+    anchors.right: parent.right
+    text: Close
+
+  Button
+    id: confirm
+    width: 70
+    anchors.bottom: parent.bottom
+    anchors.left: parent.left
+    text: Confirm
+
+MessageWindow < StaticMainWindow
+  size: 250 110
+  anchors.centerIn: parent
+  !text: tr("Message")
+  visible: false
+  draggable: true
+
+  Label
+    id: message
+    anchors.top: parent.top
+    anchors.right: parent.right
+    anchors.left: parent.left
+    margin: 10
+    margin-top: 0
+    text-auto-resize: true
+    text-wrap: true
+    text-align: center
+
+  Button
+    id: okay
+    width: 70
+    anchors.bottom: parent.bottom
+    anchors.horizontalCenter: parent.horizontalCenter
+    text: Okay
+
+LockUI < FlatPanel
+  anchors.fill: parent
+  opacity: 0.45
+  phantom: false
+  visible: false
+
+MainWindow
+  id: BankWindow
+  size: 361 255
+  text: Bank
+  text-offset: 0 5
+  padding: 2
+
+  Panel
+    id: internalPanel
+    image-source: /images/ui/panel_side
+    image-border: 1
+    anchors.top: parent.top
+    anchors.right: parent.right
+    anchors.left: parent.left
+    anchors.bottom: parent.bottom
+    margin-bottom: 40
+    margin-top: 30
+    margin-right: 10
+    margin-left: 10
+
+    UIItem
+      id: currencyDisplay
+      anchors.top: parent.top
+      anchors.left: parent.left
+      margin-top: 15
+      margin-left: 15
+      size: 40 40
+      virtual: true
+
+    ComboBox
+      id: currenciesScrollMenu
+      anchors.top: parent.top
+      anchors.left: currencyDisplay.right
+      margin-top: 24
+      margin-left: 10
+      width: 265
+      text-offset: 4 0
+      text-align: left
+
+    Label
+      id: bankLabel
+      anchors.top: currenciesScrollMenu.bottom
+      anchors.right: bankAmountPanel.left
+      margin-top: 25
+      margin-right: 15
+      text: Bank:
+
+    FlatPanel
+      id: bankAmountPanel
+      anchors.top: currenciesScrollMenu.bottom
+      anchors.horizontalCenter: currenciesScrollMenu.horizontalCenter
+      margin-top: 20
+      margin-left: 15
+      width: 230
+      height: 25
+      Label
+        id: text
+        anchors.fill: parent
+        text-align: center
+
+    Label
+      id: inventoryLabel
+      anchors.top: bankAmountPanel.bottom
+      anchors.right: inventoryAmountPanel.left
+      margin-top: 20
+      margin-right: 15
+      text: Inventory:
+
+    FlatPanel
+      id: inventoryAmountPanel
+      anchors.top: bankAmountPanel.bottom
+      anchors.horizontalCenter: bankAmountPanel.horizontalCenter
+      margin-top: 15
+      width: 230
+      height: 25
+      Label
+        id: text
+        anchors.fill: parent
+        text-align: center
+
+    Button
+      id: withdrawButton
+      anchors.bottom: parent.bottom
+      anchors.right: depositButton.left
+      margin-bottom: 13
+      margin-right: 10
+      text: Withdraw
+      width: 100
+      !tooltip: tr("Ctrl + left click to withdraw all")
+
+    Button
+      id: depositButton
+      anchors.bottom: parent.bottom
+      anchors.horizontalCenter: parent.horizontalCenter
+      margin-bottom: 13
+      text: Deposit
+      width: 100
+      !tooltip: tr("Ctrl + left click to deposit all")
+
+    Button
+      id: transferButton
+      anchors.bottom: parent.bottom
+      anchors.left: depositButton.right
+      margin-bottom: 13
+      margin-left: 10
+      text: Transfer
+      width: 100
+
+  Button
+    id: closeButton
+    anchors.bottom: parent.bottom
+    anchors.right: parent.right
+    margin-bottom: 10
+    margin-right: 10
+    text: Close
+    width: 100
+
+  Button
+    id: logsButton
+    anchors.bottom: parent.bottom
+    anchors.right: closeButton.left
+    margin-bottom: 10
+    margin-right: 10
+    text: Transfer logs
+    width: 100
+
+  LockUI
+    id: LockUI
