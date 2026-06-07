@@ -1,0 +1,9 @@
+Module
+  name: game_mastery
+  description: Mastery
+  author: Fifth
+  autoload: true
+  sandboxed: true
+  scripts: [ 1_data, mastery ]
+  @onLoad: Mastery.init()
+  @onUnload: Mastery.terminate()

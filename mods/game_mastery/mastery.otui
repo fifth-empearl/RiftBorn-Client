@@ -1,0 +1,292 @@
+MessageBase < UIWidget
+  !text: tr('.')
+  text-offset: 0 5
+  text-align: top
+  size: 300 220
+  image-source: /images/ui/window
+  image-border: 6
+  image-border-top: 27
+  anchors.centerIn: parent
+  visible: false
+
+  RoundedButton
+    id: ConfirmButton
+    anchors.horizontalCenter: parent.horizontalCenter
+    anchors.bottom: parent.bottom
+    margin-bottom: 20
+    !text: tr("OK")
+
+  Label
+    id: Text
+    anchors.top: parent.top
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.bottom:  ConfirmButton.top
+    margin-top: 30
+    margin-left: 20
+    margin-right: 20
+    margin-bottom: 10
+    text-align: center
+    text-wrap: true
+    background-color: #00000080
+    padding: 10
+
+ConfirmMessageBase < UIWidget
+  !text: tr('.')
+  text-offset: 0 5
+  text-align: top
+  text-align: top
+  size: 300 220
+  image-source: /images/ui/window
+  image-border: 6
+  image-border-top: 27
+  anchors.centerIn: parent
+  visible: false
+
+  RoundedButton
+    id: ConfirmButton
+    anchors.right: parent.right
+    anchors.bottom: parent.bottom
+    margin-bottom: 20
+    margin-right: 20
+    !text: tr("Yes")
+
+  RoundedButton
+    id: CancelButton
+    anchors.left: parent.left
+    anchors.bottom: parent.bottom
+    margin-bottom: 20
+    margin-left: 20
+    !text: tr("No")
+
+  UIWidget
+    id: Text
+    anchors.top: parent.top
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.bottom:  ConfirmButton.top
+    margin-top: 30
+    margin-left: 20
+    margin-right: 20
+    margin-bottom: 10
+    text-wrap: true
+    background-color: #00000080
+    padding: 10
+
+LockUI < Panel
+  anchors.fill: parent
+  opacity: 0.3
+  phantom: false
+  visible: false
+  background-color: #8c8c8c
+
+FullLockUI < Panel
+  anchors.fill: parent
+  opacity: 1
+  phantom: false
+  visible: false
+  background-color: #000000
+
+MasteryPanel < FlatPanel
+  height: 300
+  width: 150
+
+  Label
+    id: name
+    ttf-font: martel
+    ttf-font-size: 24
+    ttf-stroke: 1 black
+    text-auto-resize: true
+    anchors.top: parent.top
+    anchors.horizontalCenter: parent.horizontalCenter
+    margin: 5
+
+  UIWidget
+    id: badge
+    anchors.top: name.bottom
+    anchors.horizontalCenter: parent.horizontalCenter
+    size: 120 120
+    margin: 5
+
+  Label
+    id: level
+    ttf-font: verdana-bold
+    ttf-font-size: 20
+    ttf-stroke: 1 black
+    text-auto-resize: true
+    anchors.top: badge.bottom
+    anchors.horizontalCenter: parent.horizontalCenter
+    margin: 5
+    margin-top: 10
+
+  Panel
+    id: effectsPanel
+    phantom: false
+    text: Buffs
+    text-align: center
+    anchors.top: level.bottom
+    anchors.right: parent.right
+    anchors.left: parent.left
+    height: 28
+    margin-left: 10
+    margin-right: 10
+    margin-top: 18
+    ttf-font: verdana-italic
+    ttf-font-size: 13
+    ttf-stroke: 1 black
+    text-offset: 0 -1
+    image-source: /images/ui/button_startplaying_idle
+
+  RoundedButton
+    id: levelUpButton
+    text: Level up
+    width: 120
+    anchors.bottom: parent.bottom
+    anchors.horizontalCenter: parent.horizontalCenter
+    margin: 10
+    !tooltip: tr("Ctrl + left click to level up with out confirmation")
+
+
+MainWindow
+  size: 880 600
+  text-align: top
+  text: Mastery
+  text-offset: 0 3
+  padding: 2
+  @onEscape: self:hide()
+
+  UIWidget
+    id: decorAsset1
+    image-source: images/1
+    anchors.top: activeEffectsPanel.top
+    anchors.right: activeEffectsPanel.left
+    size: 227 236
+    margin-top: -60
+    margin-right: -20
+    opacity: 0.1
+    phantom: true
+
+  UIWidget
+    id: decorAsset2
+    image-source: images/2
+    anchors.top: activeEffectsPanel.top
+    anchors.left: activeEffectsPanel.right
+    size: 239 239
+    margin-top: -60
+    margin-left: -10
+    opacity: 0.1
+    phantom: true
+
+  UIWidget
+    id: decorAsset3
+    image-source: images/3
+    anchors.top: activeEffectsPanel.top
+    anchors.left: activeEffectsPanel.right
+    size: 239 239
+    margin-top: -60
+    margin-left: -40
+    opacity: 0.15
+    phantom: true
+
+  UIWidget
+    id: decorAsset4
+    image-source: images/4
+    anchors.top: activeEffectsPanel.top
+    anchors.right: activeEffectsPanel.left
+    size: 256 194
+    margin-top: -40
+    margin-right: -60
+    opacity: 0.1
+    phantom: true
+
+  Panel
+    id: masteryCardsPanel
+    anchors.top: parent.top
+    anchors.horizontalCenter: parent.horizontalCenter
+    margin-top: 30
+    width: 830
+    height: 300
+    layout:
+      type: horizontalBox
+      align-top: true
+      spacing: 20
+
+  UIScrollArea
+    id: activeEffectsPanel
+    border-width: 2
+    border-color: #8e784d
+    background-color: #7d725e
+    anchors.bottom: bottomPanel.top
+    anchors.horizontalCenter: masteryCardsPanel.horizontalCenter
+    margin-bottom: 25
+    padding: 5
+    width: 490
+    height: 150
+    layout:
+      type: verticalBox
+      align-top: true
+      spacing: 2
+    vertical-scrollbar: activeEffectsPanelScrollBar
+
+  VerticalScrollBar
+    id: activeEffectsPanelScrollBar
+    anchors.top: activeEffectsPanel.top
+    anchors.bottom: activeEffectsPanel.bottom
+    anchors.right: activeEffectsPanel.right
+    margin-right: -14
+    pixels-scroll: true
+    step: 50
+
+  Label
+    id: activeEffectsLabel
+    text: Active Effects
+    text-auto-resize: true
+    anchors.bottom: activeEffectsPanel.top
+    anchors.left: activeEffectsPanel.left
+    anchors.right: activeEffectsPanelScrollBar.right
+    text-align: center
+    margin: 7
+
+
+  FlatPanel
+    id: bottomPanel
+    height: 40
+    anchors.bottom: parent.bottom
+    anchors.right: parent.right
+    anchors.left: parent.left
+    margin: 10
+
+    Label
+      id: pointsLabel
+      anchors.verticalCenter: parent.verticalCenter
+      anchors.horizontalCenter: parent.horizontalCenter
+      text-auto-resize: true
+
+    RoundedButton
+      id: resetButton
+      anchors.verticalCenter: parent.verticalCenter
+      anchors.left: parent.left
+      margin-left: 20
+      text: Reset
+      width: 100
+
+    RoundedButton
+      id: closeButton
+      anchors.verticalCenter: parent.verticalCenter
+      anchors.right: parent.right
+      margin-right: 20
+      text: Close
+      width: 100
+      @onClick: self:getParent():getParent():hide()
+
+  LockUI
+    id: LockUI
+
+  FullLockUI
+    id: FullLockUI
+
+  MessageBase
+    id: MessageBase
+
+  ConfirmMessageBase
+    id: ConfirmMessageBase
