@@ -1,0 +1,9 @@
+Module
+  name: game_spellsUnlocker
+  description: Spells Unlocker
+  author: Fifth
+  autoload: true
+  sandboxed: true
+  scripts: [ 0_client, 1_data, spellsUnlocker ]
+  @onLoad: SpellsUnlocker.init()
+  @onUnload: SpellsUnlocker.terminate()

@@ -1,5 +1,17 @@
 ProgressiveTasks = ProgressiveTasks or {}
 
+local function getSpellPointsStorage()
+	if type(Storage) == "table" and Storage.CustomSystems and Storage.CustomSystems.SpellsUnlocker then
+		local spellPoints = Storage.CustomSystems.SpellsUnlocker.SpellPoints
+		if spellPoints then
+			return spellPoints
+		end
+	end
+	return 0
+end
+
+local spellPointsStorage = getSpellPointsStorage()
+
 ProgressiveTasks.maxActiveTasks = 3
 ProgressiveTasks.npcAccessed = false
 ProgressiveTasks.taskPrestigeRankTable = {    -- Rank level is calculated from the player's KV-backed total task prestige exp.
@@ -17,8 +29,8 @@ ProgressiveTasks.taskPrestigeRankTable = {    -- Rank level is calculated from t
 			{
 				type = "storages",
 				storages = {
-					{id = 5151, name = "Honor Points", amount = 5},
-					{id = 5152, name = "Spell Points", amount = 5},
+					{id = 5151, name = "Placeholder Points", amount = 5},
+					{id = spellPointsStorage, name = "Spell Points", amount = 5},
 				}
 			},
 			{
@@ -40,8 +52,8 @@ ProgressiveTasks.taskPrestigeRankTable = {    -- Rank level is calculated from t
 			{
 				type = "storages",
 				storages = {
-					{id = 5151, name = "Honor Points", amount = 10},
-					{id = 5152, name = "Spell Points", amount = 10},
+					{id = 5151, name = "Placeholder Points", amount = 10},
+					{id = spellPointsStorage, name = "Spell Points", amount = 10},
 				}
 			},
 			{
@@ -63,8 +75,8 @@ ProgressiveTasks.taskPrestigeRankTable = {    -- Rank level is calculated from t
 			{
 				type = "storages",
 				storages = {
-					{id = 5151, name = "Honor Points", amount = 15},
-					{id = 5152, name = "Spell Points", amount = 15},
+					{id = 5151, name = "Placeholder Points", amount = 15},
+					{id = spellPointsStorage, name = "Spell Points", amount = 15},
 				}
 			},
 			{
@@ -86,8 +98,8 @@ ProgressiveTasks.taskPrestigeRankTable = {    -- Rank level is calculated from t
 			{
 				type = "storages",
 				storages = {
-					{id = 5151, name = "Honor Points", amount = 20},
-					{id = 5152, name = "Spell Points", amount = 20},
+					{id = 5151, name = "Placeholder Points", amount = 20},
+					{id = spellPointsStorage, name = "Spell Points", amount = 20},
 				}
 			},
 			{
@@ -109,8 +121,8 @@ ProgressiveTasks.taskPrestigeRankTable = {    -- Rank level is calculated from t
 			{
 				type = "storages",
 				storages = {
-					{id = 5151, name = "Honor Points", amount = 25},
-					{id = 5152, name = "Spell Points", amount = 25},
+					{id = 5151, name = "Placeholder Points", amount = 25},
+					{id = spellPointsStorage, name = "Spell Points", amount = 25},
 				}
 			},
 			{
@@ -132,8 +144,8 @@ ProgressiveTasks.taskPrestigeRankTable = {    -- Rank level is calculated from t
 			{
 				type = "storages",
 				storages = {
-					{id = 5151, name = "Honor Points", amount = 30},
-					{id = 5152, name = "Spell Points", amount = 30},
+					{id = 5151, name = "Placeholder Points", amount = 30},
+					{id = spellPointsStorage, name = "Spell Points", amount = 30},
 				}
 			},
 			{
@@ -155,8 +167,8 @@ ProgressiveTasks.taskPrestigeRankTable = {    -- Rank level is calculated from t
 			{
 				type = "storages",
 				storages = {
-					{id = 5151, name = "Honor Points", amount = 35},
-					{id = 5152, name = "Spell Points", amount = 35},
+					{id = 5151, name = "Placeholder Points", amount = 35},
+					{id = spellPointsStorage, name = "Spell Points", amount = 35},
 				}
 			},
 			{
@@ -178,8 +190,8 @@ ProgressiveTasks.taskPrestigeRankTable = {    -- Rank level is calculated from t
 			{
 				type = "storages",
 				storages = {
-					{id = 5151, name = "Honor Points", amount = 40},
-					{id = 5152, name = "Spell Points", amount = 40},
+					{id = 5151, name = "Placeholder Points", amount = 40},
+					{id = spellPointsStorage, name = "Spell Points", amount = 40},
 				}
 			},
 			{
@@ -201,8 +213,8 @@ ProgressiveTasks.taskPrestigeRankTable = {    -- Rank level is calculated from t
 			{
 				type = "storages",
 				storages = {
-					{id = 5151, name = "Honor Points", amount = 45},
-					{id = 5152, name = "Spell Points", amount = 45},
+					{id = 5151, name = "Placeholder Points", amount = 45},
+					{id = spellPointsStorage, name = "Spell Points", amount = 45},
 				}
 			},
 			{
@@ -224,8 +236,8 @@ ProgressiveTasks.taskPrestigeRankTable = {    -- Rank level is calculated from t
 			{
 				type = "storages",
 				storages = {
-					{id = 5151, name = "Honor Points", amount = 50},
-					{id = 5152, name = "Spell Points", amount = 50},
+					{id = 5151, name = "Placeholder Points", amount = 50},
+					{id = spellPointsStorage, name = "Spell Points", amount = 50},
 				}
 			},
 			{
@@ -247,8 +259,8 @@ ProgressiveTasks.taskPrestigeRankTable = {    -- Rank level is calculated from t
 			{
 				type = "storages",
 				storages = {
-					{id = 5151, name = "Honor Points", amount = 55},
-					{id = 5152, name = "Spell Points", amount = 55},
+					{id = 5151, name = "Placeholder Points", amount = 55},
+					{id = spellPointsStorage, name = "Spell Points", amount = 55},
 				}
 			},
 			{
@@ -271,8 +283,8 @@ ProgressiveTasks.taskPrestigeRankTable = {    -- Rank level is calculated from t
 			{
 				type = "storages",
 				storages = {
-					{id = 5151, name = "Honor Points", amount = 60},
-					{id = 5152, name = "Spell Points", amount = 60},
+					{id = 5151, name = "Placeholder Points", amount = 60},
+					{id = spellPointsStorage, name = "Spell Points", amount = 60},
 				}
 			},
 			{
@@ -295,8 +307,8 @@ ProgressiveTasks.taskPrestigeRankTable = {    -- Rank level is calculated from t
 			{
 				type = "storages",
 				storages = {
-					{id = 5151, name = "Honor Points", amount = 65},
-					{id = 5152, name = "Spell Points", amount = 65},
+					{id = 5151, name = "Placeholder Points", amount = 65},
+					{id = spellPointsStorage, name = "Spell Points", amount = 65},
 				}
 			},
 			{
@@ -319,8 +331,8 @@ ProgressiveTasks.taskPrestigeRankTable = {    -- Rank level is calculated from t
 			{
 				type = "storages",
 				storages = {
-					{id = 5151, name = "Honor Points", amount = 70},
-					{id = 5152, name = "Spell Points", amount = 70},
+					{id = 5151, name = "Placeholder Points", amount = 70},
+					{id = spellPointsStorage, name = "Spell Points", amount = 70},
 				}
 			},
 			{
@@ -343,8 +355,8 @@ ProgressiveTasks.taskPrestigeRankTable = {    -- Rank level is calculated from t
 			{
 				type = "storages",
 				storages = {
-					{id = 5151, name = "Honor Points", amount = 75},
-					{id = 5152, name = "Spell Points", amount = 75},
+					{id = 5151, name = "Placeholder Points", amount = 75},
+					{id = spellPointsStorage, name = "Spell Points", amount = 75},
 				}
 			},
 			{
@@ -367,8 +379,8 @@ ProgressiveTasks.taskPrestigeRankTable = {    -- Rank level is calculated from t
 			{
 				type = "storages",
 				storages = {
-					{id = 5151, name = "Honor Points", amount = 80},
-					{id = 5152, name = "Spell Points", amount = 80},
+					{id = 5151, name = "Placeholder Points", amount = 80},
+					{id = spellPointsStorage, name = "Spell Points", amount = 80},
 				}
 			},
 			{
@@ -391,8 +403,8 @@ ProgressiveTasks.taskPrestigeRankTable = {    -- Rank level is calculated from t
 			{
 				type = "storages",
 				storages = {
-					{id = 5151, name = "Honor Points", amount = 85},
-					{id = 5152, name = "Spell Points", amount = 85},
+					{id = 5151, name = "Placeholder Points", amount = 85},
+					{id = spellPointsStorage, name = "Spell Points", amount = 85},
 				}
 			},
 			{
@@ -415,8 +427,8 @@ ProgressiveTasks.taskPrestigeRankTable = {    -- Rank level is calculated from t
 			{
 				type = "storages",
 				storages = {
-					{id = 5151, name = "Honor Points", amount = 90},
-					{id = 5152, name = "Spell Points", amount = 90},
+					{id = 5151, name = "Placeholder Points", amount = 90},
+					{id = spellPointsStorage, name = "Spell Points", amount = 90},
 				}
 			},
 			{
@@ -439,8 +451,8 @@ ProgressiveTasks.taskPrestigeRankTable = {    -- Rank level is calculated from t
 			{
 				type = "storages",
 				storages = {
-					{id = 5151, name = "Honor Points", amount = 95},
-					{id = 5152, name = "Spell Points", amount = 95},
+					{id = 5151, name = "Placeholder Points", amount = 95},
+					{id = spellPointsStorage, name = "Spell Points", amount = 95},
 				}
 			},
 			{
@@ -463,8 +475,8 @@ ProgressiveTasks.taskPrestigeRankTable = {    -- Rank level is calculated from t
 			{
 				type = "storages",
 				storages = {
-					{id = 5151, name = "Honor Points", amount = 100},
-					{id = 5152, name = "Spell Points", amount = 100},
+					{id = 5151, name = "Placeholder Points", amount = 100},
+					{id = spellPointsStorage, name = "Spell Points", amount = 100},
 				}
 			},
 			{
@@ -487,8 +499,8 @@ ProgressiveTasks.taskPrestigeRankTable = {    -- Rank level is calculated from t
 			{
 				type = "storages",
 				storages = {
-					{id = 5151, name = "Honor Points", amount = 110},
-					{id = 5152, name = "Spell Points", amount = 110},
+					{id = 5151, name = "Placeholder Points", amount = 110},
+					{id = spellPointsStorage, name = "Spell Points", amount = 110},
 				}
 			},
 			{
@@ -511,8 +523,8 @@ ProgressiveTasks.taskPrestigeRankTable = {    -- Rank level is calculated from t
 			{
 				type = "storages",
 				storages = {
-					{id = 5151, name = "Honor Points", amount = 120},
-					{id = 5152, name = "Spell Points", amount = 120},
+					{id = 5151, name = "Placeholder Points", amount = 120},
+					{id = spellPointsStorage, name = "Spell Points", amount = 120},
 				}
 			},
 			{
@@ -535,8 +547,8 @@ ProgressiveTasks.taskPrestigeRankTable = {    -- Rank level is calculated from t
 			{
 				type = "storages",
 				storages = {
-					{id = 5151, name = "Honor Points", amount = 130},
-					{id = 5152, name = "Spell Points", amount = 130},
+					{id = 5151, name = "Placeholder Points", amount = 130},
+					{id = spellPointsStorage, name = "Spell Points", amount = 130},
 				}
 			},
 			{
@@ -559,8 +571,8 @@ ProgressiveTasks.taskPrestigeRankTable = {    -- Rank level is calculated from t
 			{
 				type = "storages",
 				storages = {
-					{id = 5151, name = "Honor Points", amount = 140},
-					{id = 5152, name = "Spell Points", amount = 140},
+					{id = 5151, name = "Placeholder Points", amount = 140},
+					{id = spellPointsStorage, name = "Spell Points", amount = 140},
 				}
 			},
 			{
@@ -583,8 +595,8 @@ ProgressiveTasks.taskPrestigeRankTable = {    -- Rank level is calculated from t
 			{
 				type = "storages",
 				storages = {
-					{id = 5151, name = "Honor Points", amount = 200},
-					{id = 5152, name = "Spell Points", amount = 200},
+					{id = 5151, name = "Placeholder Points", amount = 200},
+					{id = spellPointsStorage, name = "Spell Points", amount = 200},
 				}
 			},
 			{
@@ -619,8 +631,8 @@ ProgressiveTasks.tasksConfig = {
 			{type = "Gold", amount = 1000},
 			{type = "Exp", amount = 10000},
 			{type = "storages", storages = {
-				{id = 5151, name = "Honor Points", minAmount = 5, maxAmount = 10, chance = 5000}, -- 50% chance to add between 5-10 Honor Points storage
-				{id = 5152, name = "Spell Points", amount = 5},
+				{id = 5151, name = "Placeholder Points", minAmount = 5, maxAmount = 10, chance = 5000}, -- 50% chance to add between 5-10 Placeholder Points storage
+				{id = spellPointsStorage, name = "Spell Points", amount = 5},
 				}},
 			{type = "items", items = {
 				{id = 3035, minAmount = 1, maxAmount = 3, chance = 5000}, -- platinum coin
@@ -645,8 +657,8 @@ ProgressiveTasks.tasksConfig = {
 			{type = "Gold", amount = 2000},
 			{type = "Exp", amount = 20000},
 			{type = "storages", storages = {
-				{id = 5151, name = "Honor Points", minAmount = 10, maxAmount = 20, chance = 6000},
-				{id = 5152, name = "Spell Points", amount = 10},
+				{id = 5151, name = "Placeholder Points", minAmount = 10, maxAmount = 20, chance = 6000},
+				{id = spellPointsStorage, name = "Spell Points", amount = 10},
 			}},
 			{type = "items", items = {
 				{id = 3043, amount = 1, chance = 4000}, -- crystal coin
@@ -670,8 +682,8 @@ ProgressiveTasks.tasksConfig = {
 			{type = "Gold", amount = 5000},
 			{type = "Exp", amount = 50000},
 			{type = "storages", storages = {
-				{id = 5151, name = "Honor Points", minAmount = 10, maxAmount = 20, chance = 7000},
-				{id = 5152, name = "Spell Points", amount = 10},
+				{id = 5151, name = "Placeholder Points", minAmount = 10, maxAmount = 20, chance = 7000},
+				{id = spellPointsStorage, name = "Spell Points", amount = 10},
 			}},
 			{type = "items", items = {
 				{id = 3043, minAmount = 1, maxAmount = 3, chance = 3000}, -- crystal coin
@@ -695,8 +707,8 @@ ProgressiveTasks.tasksConfig = {
 			{type = "Gold", amount = 10000},
 			{type = "Exp", amount = 100000},
 			{type = "storages", storages = {
-				{id = 5151, name = "Honor Points", minAmount = 20, maxAmount = 30, chance = 8000},
-				{id = 5152, name = "Spell Points", amount = 20},
+				{id = 5151, name = "Placeholder Points", minAmount = 20, maxAmount = 30, chance = 8000},
+				{id = spellPointsStorage, name = "Spell Points", amount = 20},
 			}},
 			{type = "items", items = {
 				{id = 3043, minAmount = 1, maxAmount = 2, chance = 2000}, -- crystal coin
@@ -720,8 +732,8 @@ ProgressiveTasks.tasksConfig = {
 			{type = "Gold", amount = 15000},
 			{type = "Exp", amount = 150000},
 			{type = "storages", storages = {
-				{id = 5151, name = "Honor Points", minAmount = 25, maxAmount = 35, chance = 7000},
-				{id = 5152, name = "Spell Points", amount = 25},
+				{id = 5151, name = "Placeholder Points", minAmount = 25, maxAmount = 35, chance = 7000},
+				{id = spellPointsStorage, name = "Spell Points", amount = 25},
 			}},
 			{type = "items", items = {
 				{id = 6390, amount = 1}, -- nightmare shield
@@ -745,8 +757,8 @@ ProgressiveTasks.tasksConfig = {
 			{type = "Gold", amount = 20000},
 			{type = "Exp", amount = 200000},
 			{type = "storages", storages = {
-				{id = 5151, name = "Honor Points", minAmount = 30, maxAmount = 40, chance = 8000},
-				{id = 5152, name = "Spell Points", amount = 30},
+				{id = 5151, name = "Placeholder Points", minAmount = 30, maxAmount = 40, chance = 8000},
+				{id = spellPointsStorage, name = "Spell Points", amount = 30},
 			}},
 			{type = "items", items = {
 				{id = 16161, amount = 1}, -- crystalline axe

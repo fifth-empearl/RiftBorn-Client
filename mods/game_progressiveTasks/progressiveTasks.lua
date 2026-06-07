@@ -1,7 +1,7 @@
 ProgressiveTasks = ProgressiveTasks or {}
 ProgressiveTasks.Opcode = 43
 ProgressiveTasks.rewardIcons = {
-	["Honor Points"]  = "images/ui/honorPoints",
+	["Placeholder Points"]  = "images/ui/honorPoints",
 	["Spell Points"] = "images/ui/spellPoints",
 	["Task Prestige Exp"] = "images/ui/decor1",
 	["Gold"] = "images/ui/gold",
