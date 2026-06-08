@@ -1,0 +1,9 @@
+Module
+  name: game_notifications
+  description: Notification display
+  author: Fifth
+  scripts: [ notifications ]
+  autoload: true
+  sandboxed: true
+  @onLoad: Notifications.init()
+  @onUnload: Notifications.terminate()
