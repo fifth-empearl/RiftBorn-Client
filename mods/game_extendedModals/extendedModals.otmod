@@ -1,0 +1,9 @@
+Module
+  name: game_extendedModals
+  description: Extended Modals
+  author: Fifth
+  autoload: true
+  sandboxed: true
+  scripts: [ 0_client, 1_data, extendedModals ]
+  @onLoad: ExtendedModals.init()
+  @onUnload: ExtendedModals.terminate()

@@ -1,0 +1,467 @@
+ExtendedModalsLabelEntry < Label
+  margin-left: 10
+  margin-top: 7
+  color: #edddc0
+  shadow: true
+
+ExtendedModalsItemReward < UIItem
+  size: 42 42
+  virtual: true
+  shadow: true
+  phantom: false
+
+ExtendedModalsItemRewardEntry < Panel
+  background-color: #edddc060
+  phantom: false
+
+  ExtendedModalsItemReward
+    id: item
+    anchors.top: parent.top
+    anchors.horizontalCenter: parent.horizontalCenter
+    phantom: false
+
+  Label
+    id: info
+    anchors.top: item.bottom
+    anchors.right: parent.right
+    anchors.left: parent.left
+    anchors.bottom: parent.bottom
+    color: white
+    text-align: center
+    shadow: true
+
+ExtendedModalsRewardEntry < Panel
+  height: 50
+  width: 50
+  background-color: #edddc060
+  phantom: false
+
+  Panel
+    id: reward
+    size: 40 40
+    anchors.top: parent.top
+    anchors.horizontalCenter: parent.horizontalCenter
+    image-fixed-ratio: true
+    image-repeated: false
+    image-smooth: true
+    shadow: true
+    phantom: false
+
+  Label
+    id: info
+    anchors.top: reward.bottom
+    anchors.right: parent.right
+    anchors.left: parent.left
+    anchors.bottom: parent.bottom
+    color: white
+    text-align: center
+    shadow: true
+
+ExtendedModalsMainPanelEntry < Panel
+  padding: 5
+  height: 250
+  margin: 5
+  border: 1 #edddc060
+
+  Label
+    anchors.left: requirementsPanel.left
+    anchors.bottom: requirementsPanel.top
+    margin-bottom: 2
+    margin-left: 5
+    text: Requirements
+    color: #edddc0
+    shadow: true
+
+  Panel
+    id: requirementsPanel
+    anchors.right: parent.horizontalCenter
+    anchors.left: parent.left
+    anchors.top: parent.top
+    anchors.bottom: parent.bottom
+    margin: 5
+    margin-top: 15
+    border: 1 #edddc060
+
+    UIScrollArea
+      id: requirementsList
+      anchors.right: parent.right
+      anchors.left: parent.left
+      anchors.top: parent.top
+      anchors.bottom: itemsRequirements.top
+      margin: 5
+      margin-right: 16
+      layout: verticalBox
+      padding: 5
+      border: 1 #edddc060
+      vertical-scrollbar: mainRequirementsScrollBar
+
+      Label
+        id: text
+        text-auto-resize: true
+        text-wrap: true
+        text-offset: 6 4
+        text-align: top-left
+        color: white
+
+    VerticalScrollBar
+      id: mainRequirementsScrollBar
+      anchors.top: requirementsList.top
+      anchors.bottom: requirementsList.bottom
+      anchors.left: requirementsList.right
+      step: 14
+      pixels-scroll: true
+
+    UIScrollArea
+      id: itemsRequirements
+      anchors.right: parent.right
+      anchors.left: parent.left
+      anchors.bottom: parent.bottom
+      height: 70
+      margin: 5
+      margin-right: 16
+      border: 1 #edddc060
+      padding: 6
+      layout:
+        type: grid
+        cell-size: 56 56
+        cell-spacing: 3
+        flow: true
+      vertical-scrollbar: itemsRequirementsScrollBar
+
+    VerticalScrollBar
+      id: itemsRequirementsScrollBar
+      anchors.top: itemsRequirements.top
+      anchors.bottom: itemsRequirements.bottom
+      anchors.left: itemsRequirements.right
+      pixels-scroll: true
+      step: 50
+
+  Label
+    anchors.left: rewardsPanel.left
+    anchors.bottom: rewardsPanel.top
+    margin-bottom: 2
+    margin-left: 5
+    text: Rewards
+    color: #edddc0
+    shadow: true
+
+  UIScrollArea
+    id: rewardsPanel
+    anchors.right: parent.right
+    anchors.left: parent.horizontalCenter
+    anchors.top: parent.top
+    anchors.bottom: parent.bottom
+    margin: 5
+    margin-top: 15
+    margin-right: 14
+    border: 1 #edddc060
+    padding: 4
+    padding-left: 5
+    layout:
+      type: grid
+      cell-size: 62 62
+      cell-spacing: 3
+      flow: true
+    vertical-scrollbar: rewardsPanelScrollBar
+
+  VerticalScrollBar
+    id: rewardsPanelScrollBar
+    anchors.top: rewardsPanel.top
+    anchors.bottom: rewardsPanel.bottom
+    anchors.left: rewardsPanel.right
+    pixels-scroll: true
+    step: 50
+
+ExtendedModalsDescriptionEntry < Panel
+  padding: 5
+  height: 70
+  margin: 5
+  border: 1 #edddc060
+
+  UIScrollArea
+    id: scrollArea
+    anchors.fill: parent
+    margin-right: 14
+    layout: verticalBox
+    padding: 5
+    border-width: 1
+    border-color: #272727
+    background-color: #636363
+    vertical-scrollbar: extendedModalsDescriptionScrollBar
+
+    Label
+      id: text
+      text-auto-resize: true
+      text-wrap: true
+      text-offset: 6 4
+      text-align: top-left
+      color: white
+
+  VerticalScrollBar
+    id: extendedModalsDescriptionScrollBar
+    anchors.top: scrollArea.top
+    anchors.bottom: scrollArea.bottom
+    anchors.left: scrollArea.right
+    margin-left: 3
+    step: 14
+    pixels-scroll: true
+
+ExtendedModalsBannerEntry < UIWidget
+  height: 100
+  image-smooth: true
+  image-fixed-ratio: true
+  border: 1 #edddc060
+  margin: 5
+
+ExtendedModalsRewardsGridEntry < Panel
+  height: 82
+  margin: 5
+  border: 1 #edddc060
+
+  UIScrollArea
+    id: rewards
+    anchors.fill: parent
+    margin: 5
+    margin-right: 16
+    padding: 4
+    layout:
+      type: grid
+      cell-size: 60 60
+      cell-spacing: 3
+      flow: true
+    vertical-scrollbar: rewardsScrollBar
+
+  VerticalScrollBar
+    id: rewardsScrollBar
+    anchors.top: rewards.top
+    anchors.bottom: rewards.bottom
+    anchors.left: rewards.right
+    pixels-scroll: true
+    step: 50
+
+ExtendedModalsSectionEntry < Panel
+  padding: 5
+  margin: 5
+  height: 120
+  border: 1 #edddc060
+  layout:
+    type: verticalBox
+    spacing: 4
+    fit-children: true
+
+  Label
+    id: title
+    color: #f5c105
+    shadow: true
+    text-align: center
+    height: 18
+
+  Label
+    id: text
+    color: white
+    text-wrap: true
+    text-auto-resize: true
+    text-align: top-left
+    margin-left: 6
+    margin-right: 6
+    shadow: true
+
+  Panel
+    id: content
+    height: 1
+    layout:
+      type: verticalBox
+      spacing: 4
+      fit-children: true
+
+ExtendedModalsOptionEntry < Panel
+  width: 126
+  height: 154
+  padding: 4
+  background-color: #edddc030
+  border: 1 #edddc060
+  phantom: false
+  $hover:
+    background-color: #edddc048
+    border: 1 #f5c105
+  $checked:
+    background-color: #5b481d90
+    border: 2 #f5c105
+
+  Panel
+    id: imagePreview
+    anchors.top: parent.top
+    anchors.horizontalCenter: parent.horizontalCenter
+    margin-top: 4
+    size: 88 62
+    image-fixed-ratio: true
+    image-smooth: true
+    visible: false
+    phantom: true
+
+  UIItem
+    id: itemPreview
+    anchors.top: parent.top
+    anchors.horizontalCenter: parent.horizontalCenter
+    margin-top: 8
+    size: 50 50
+    virtual: true
+    visible: false
+    phantom: true
+
+  UICreature
+    id: creaturePreview
+    anchors.top: parent.top
+    anchors.horizontalCenter: parent.horizontalCenter
+    margin-top: 1
+    size: 64 64
+    animate: true
+    old-scaling: true
+    visible: false
+    phantom: true
+
+  Label
+    id: amount
+    anchors.top: parent.top
+    anchors.right: parent.right
+    margin-top: 4
+    margin-right: 5
+    color: white
+    shadow: true
+    text-align: right
+    phantom: true
+
+  Label
+    id: title
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: parent.top
+    margin-top: 74
+    margin-left: 4
+    margin-right: 4
+    color: #f5c105
+    text-align: center
+    text-wrap: true
+    text-auto-resize: true
+    shadow: true
+    phantom: true
+
+  Label
+    id: description
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: title.bottom
+    anchors.bottom: parent.bottom
+    margin: 4
+    color: white
+    text-align: top
+    text-wrap: true
+    phantom: true
+
+ExtendedModalsOptionsGridEntry < Panel
+  padding: 5
+  height: 300
+  margin: 5
+  border: 1 #edddc060
+
+  Panel
+    id: header
+    anchors.top: parent.top
+    anchors.left: parent.left
+    anchors.right: parent.right
+    height: 42
+    margin: 4
+
+    Label
+      id: title
+      anchors.top: parent.top
+      anchors.left: parent.left
+      anchors.right: parent.right
+      color: #f5c105
+      shadow: true
+      text-align: center
+
+    Label
+      id: subtitle
+      anchors.top: title.bottom
+      anchors.left: parent.left
+      anchors.right: parent.right
+      margin-top: 3
+      color: white
+      text-align: center
+      text-wrap: true
+      shadow: true
+
+  UIScrollArea
+    id: options
+    anchors.top: header.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.bottom: parent.bottom
+    margin: 5
+    margin-right: 16
+    border: 1 #edddc060
+    padding: 6
+    layout:
+      type: grid
+      cell-size: 126 154
+      cell-spacing: 5
+      flow: true
+    vertical-scrollbar: optionsScrollBar
+
+  VerticalScrollBar
+    id: optionsScrollBar
+    anchors.top: options.top
+    anchors.bottom: options.bottom
+    anchors.left: options.right
+    pixels-scroll: true
+    step: 50
+
+MainWindow
+  id: extendedModals
+  text-align: top
+  text: Extended Modals
+  text-offset: 0 6
+  padding: 2
+  width: 600
+  layout:
+    type: verticalBox
+    spacing: 2
+    fit-children: true
+
+  FlatPanel
+    id: contentPanel
+    margin-top: 35
+    margin-right: 10
+    margin-left: 10
+    border: 1 #edddc060
+    padding: 2
+    layout:
+      type: verticalBox
+      spacing: 3
+      fit-children: true
+
+  FlatPanel
+    id: bottomPanel
+    image-source: /images/ui/3pixel-frame-borderimage
+    image-border: 3
+    margin: 5
+    margin-top: 10
+    height: 40
+
+    Button
+      id: closeButton
+      anchors.verticalCenter: parent.verticalCenter
+      anchors.left: parent.left
+      margin-left: 20
+      text: Close
+      width: 100
+      @onClick: self:getParent():getParent():hide()
+
+    Button
+      id: enterButton
+      anchors.verticalCenter: parent.verticalCenter
+      anchors.right: parent.right
+      margin-right: 20
+      text: Enter
+      width: 100
