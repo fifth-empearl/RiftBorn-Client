@@ -1,0 +1,318 @@
+AchievementProgressLine < UIWidget
+  height: 20
+  width: 300
+
+  Label
+    id: label
+    visible: false
+    text-auto-resize: true
+    color: #C0C0C0
+    anchors.right: progress.left
+    anchors.verticalCenter: parent.verticalCenter
+    margin-right: 5
+
+  ProgressBar
+    id: progress
+    width: 300
+    height: 16
+    anchors.horizontalCenter: parent.horizontalCenter
+    anchors.verticalCenter: parent.verticalCenter
+    background-color: #6B8E23
+    text: 0/0
+    text-offset: 0 -1
+
+AchievementRewardIcon < UIWidget
+  height: 16
+  width: 90
+
+  UIWidget
+    id: icon
+    size: 12 12
+    anchors.left: parent.left
+    anchors.verticalCenter: parent.verticalCenter
+
+  Label
+    id: value
+    text-auto-resize: true
+    color: #AFAFAF
+    font: verdana-11px-rounded
+    anchors.left: icon.right
+    anchors.verticalCenter: parent.verticalCenter
+    margin-left: 4
+
+AchievementEntry < UIWidget
+  image-source: /images/ui/outfits/minipanel
+  image-border: 5
+  image-border-top: 20
+  margin-bottom: 5
+  padding: 0
+
+  UIWidget
+    id: header
+    height: 32
+    anchors.top: parent.top
+    anchors.left: parent.left
+    anchors.right: parent.right
+
+    UIWidget
+      id: grade
+      width: 55
+      anchors.top: parent.top
+      anchors.left: parent.left
+      anchors.bottom: parent.bottom
+      margin-top: -10
+      //image-source: /images/ui/1pixel_down_frame
+      //image-border: 1
+
+      UIWidget
+        id: stars
+        image-source: /game_cyclopedia/images/icon-achievement
+        image-repeated: true
+        width: 11
+        height: 11
+        anchors.left: parent.left
+        anchors.verticalCenter: parent.verticalCenter
+        margin-left: 5
+
+    Label
+      id: title
+      color: #909090
+      font: verdana-11px-rounded
+      text-auto-resize: true
+      anchors.top: parent.top
+      anchors.horizontalCenter: parent.horizontalCenter
+      margin-top: 3
+      text-align: center
+
+    UIWidget
+      id: secretIcon
+      width: 12
+      height: 12
+      image-source: /game_achievements/secretIcon
+      anchors.left: title.right
+      anchors.top: parent.top
+      margin-top: 5
+      margin-left: 5
+      visible: false
+      tooltip: Secret Achievement
+      phantom: false
+
+    ProgressBar
+      id: progressBox
+      width: 92
+      height: 14
+      anchors.right: parent.right
+      anchors.verticalCenter: parent.verticalCenter
+      margin-right: 4
+      margin-top: -6
+      background-color: #6B8E23
+      font: verdana-11px-rounded
+      text: 0/1
+      visible: false
+      text-offset: 0 -1
+
+  UIWidget
+    id: descriptionBox
+    image-source: /images/ui/1pixel_down_frame
+    image-border: 5
+    anchors.top: header.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    margin-left: 5
+    margin-right: 5
+    margin-top: -5
+
+    Label
+      id: description
+      color: #C0C0C0
+      font: verdana-11px-rounded
+      text-wrap: true
+      text-auto-resize: true
+      anchors.top: parent.top
+      anchors.left: parent.left
+      anchors.right: parent.right
+      margin: 8
+
+  UIWidget
+    id: rewardsBox
+    image-source: /images/ui/3pixel-frame-borderimage
+    image-border: 5
+    anchors.top: descriptionBox.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    margin-left: 5
+    margin-right: 5
+    margin-top: 6
+
+    UIWidget
+      id: detailIcon
+      image-source: /game_achievements/detailIcon
+      size: 16 16
+      anchors.top: parent.top
+      anchors.left: parent.left
+      margin-top: 8
+      margin-left: 8
+      visible: false
+
+    Label
+      id: rewardDetails
+      color: #AFAFAF
+      font: verdana-11px-rounded
+      text-wrap: true
+      text-auto-resize: true
+      anchors.top: parent.top
+      anchors.left: detailIcon.right
+      anchors.right: parent.right
+      anchors.bottom: pointsReward.top
+      margin-left: 5
+      margin-right: 8
+      margin-bottom: 10
+      margin-top: 7
+
+    AchievementRewardIcon
+      id: pointsReward
+      width: 62
+      anchors.right: experienceReward.left
+      anchors.bottom: parent.bottom
+      margin-right: 6
+      margin-bottom: 8
+
+    AchievementRewardIcon
+      id: experienceReward
+      width: 76
+      anchors.right: goldReward.left
+      anchors.bottom: parent.bottom
+      margin-right: 6
+      margin-bottom: 8
+
+    AchievementRewardIcon
+      id: goldReward
+      width: 80
+      anchors.right: parent.right
+      anchors.bottom: parent.bottom
+      margin-right: 8
+      margin-bottom: 8
+
+AchievementsWindow < MainWindow
+  size: 600 600
+  padding: 5
+  text: Achievements
+
+  AchievementProgressLine
+    id: progressAll
+    anchors.top: parent.top
+    anchors.horizontalCenter: parent.horizontalCenter
+    margin-top: 25
+
+  AchievementProgressLine
+    id: progressSecret
+    anchors.top: progressAll.bottom
+    anchors.horizontalCenter: parent.horizontalCenter
+    margin-top: 3
+
+  ComboBox
+    id: filterCombo
+    size: 140 20
+    anchors.top: gradeCombo.top
+    anchors.right: gradeCombo.left
+    margin-right: 10
+
+  ComboBox
+    id: gradeCombo
+    size: 120 20
+    anchors.top: progressSecret.bottom
+    margin-top: 25
+    anchors.horizontalCenter: parent.horizontalCenter
+
+  ComboBox
+    id: sort
+    size: 180 20
+    anchors.top: gradeCombo.top
+    anchors.left: gradeCombo.right
+    margin-left: 10
+
+  BorderBox
+    id: ListBase
+    anchors.top: filterCombo.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.bottom: buffSummary.top
+    margin-top: 6
+    margin-left: 8
+    margin-right: 8
+    margin-bottom: 50
+
+    UIScrollArea
+      id: List
+      vertical-scrollbar: ListScrollbar
+      anchors.fill: parent
+      margin: 1
+      margin-right: 15
+      padding: 3
+      layout:
+        type: verticalBox
+
+    VerticalScrollBar
+      id: ListScrollbar
+      anchors.top: List.top
+      anchors.right: List.right
+      anchors.bottom: List.bottom
+      margin: 1
+      margin-right: -13
+      step: 80
+      pixel-scroll: true
+
+  TextEdit
+    id: search
+    size: 150 20
+    anchors.top: ListBase.bottom
+    anchors.left: parent.left
+    margin-top: 10
+    margin-left: 10
+    text-align: left
+    text-offset: 4 0
+    placeholder: Search achievements
+    placeholder-color: #6E706F
+
+  UIWidget
+    id: totalPoints
+    width: 150
+    height: 20
+    anchors.top: ListBase.bottom
+    anchors.right: parent.right
+    margin-top: 8
+    margin-right: 27
+
+    UIWidget
+      id: icon
+      image-source: /game_achievements/achievementsPointsIcon
+      size: 32 32
+      anchors.left: parent.left
+      anchors.verticalCenter: parent.verticalCenter
+
+    Label
+      id: value
+      color: #C0C0C0
+      text: Ahievements Points: 0
+      text-auto-resize: true
+      anchors.left: icon.right
+      anchors.verticalCenter: parent.verticalCenter
+      margin-left: -8
+
+  Button
+    id: buffSummary
+    size: 114 20
+    text: Total Buffs
+    anchors.left: parent.left
+    anchors.bottom: parent.bottom
+    margin-left: 8
+    margin-bottom: 8
+
+  Button
+    id: closeWindowButton
+    size: 84 20
+    text: Close
+    anchors.right: parent.right
+    anchors.bottom: parent.bottom
+    margin-right: 8
+    margin-bottom: 8

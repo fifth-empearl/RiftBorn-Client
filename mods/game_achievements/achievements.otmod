@@ -1,0 +1,9 @@
+Module
+  name: game_achievements
+  description: Achievements window
+  author: Fifth
+  autoload: true
+  sandboxed: true
+  scripts: [ 1_data, 2_config, achievements ]
+  @onLoad: Achievements.init()
+  @onUnload: Achievements.terminate()
