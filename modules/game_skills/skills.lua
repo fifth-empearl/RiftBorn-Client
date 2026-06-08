@@ -5,6 +5,8 @@ skillsButton = nil
 skillsSettings = nil
 local ExpRating = {}
 local smallSkillsCache = {}
+local HonorPointsOpcode = 199
+local currentHonorPoints = 0
 
 -- Cache for stats data when UI elements are hidden
 local statsCache = {
@@ -101,6 +103,7 @@ function skillController:onInit()
         -- 15.24
         onMultiOfflineTrainingDialog = onMultiOfflineTrainingDialog
     })
+    ProtocolGame.registerExtendedJSONOpcode(HonorPointsOpcode, onHonorPointsOpcode)
     skillsButton = modules.game_mainpanel.addToggleButton('skillsButton', tr('Skills') .. ' (Alt+S)',
                                                                    '/images/options/button_skills', toggle, false, 1)
     skillsButton:setOn(true)
@@ -125,6 +128,7 @@ function skillController:onInit()
 end
 
 function skillController:onTerminate()
+    ProtocolGame.unregisterExtendedJSONOpcode(HonorPointsOpcode)
     Keybind.delete("Windows", "Show/hide skills windows")
     skillsWindow:destroy()
     skillsButton:destroy()
@@ -828,6 +832,7 @@ function refresh()
     onHealthChange(player, player:getHealth(), player:getMaxHealth())
     onManaChange(player, player:getMana(), player:getMaxMana())
     onSoulChange(player, player:getSoul())
+    onHonorPointsChange(currentHonorPoints)
     onFreeCapacityChange(player, player:getFreeCapacity())
     onStaminaChange(player, player:getStamina())
     onMagicLevelChange(player, player:getMagicLevel(), player:getMagicLevelPercent())
@@ -1269,6 +1274,69 @@ end
 
 function onBaseSkillChange(localPlayer, id, baseLevel)
     setSkillBase('skillId' .. id, localPlayer:getSkillLevel(id), baseLevel)
+end
+
+local function getHonorRank(honorPoints)
+    honorPoints = tonumber(honorPoints) or 0
+    for _, entry in ipairs(HonorIcons and HonorIcons.getEntries and HonorIcons.getEntries() or {}) do
+        local min = tonumber(entry.min) or -math.huge
+        local max = tonumber(entry.max) or math.huge
+        if honorPoints >= min and honorPoints <= max then
+            return entry.name or entry.rank or "None", entry.color or "#ffffff"
+        end
+    end
+    return "None", "#ffffff"
+end
+
+local function buildHonorTooltip()
+    local lines = {}
+    for _, entry in ipairs(HonorIcons and HonorIcons.getEntries and HonorIcons.getEntries() or {}) do
+        local min = tonumber(entry.min)
+        local max = tonumber(entry.max)
+        local rangeText
+        if min and max then
+            rangeText = string.format("%s to %s", min, max)
+        elseif min then
+            rangeText = string.format("%s or higher", min)
+        elseif max then
+            rangeText = string.format("%s or lower", max)
+        end
+        if rangeText then
+            table.insert(lines, string.format("%s - [color=%s]%s[/color]", rangeText, entry.color or "#ffffff", entry.name or entry.rank or "None"))
+        end
+    end
+    return table.concat(lines, "\n")
+end
+
+function onHonorPointsChange(honorPoints)
+    currentHonorPoints = tonumber(honorPoints) or 0
+
+    setSkillValue('honorPoints', comma_value(currentHonorPoints))
+
+    local rank, color = getHonorRank(currentHonorPoints)
+    local rankWidget = skillsWindow:recursiveGetChildById('honorRank')
+    if rankWidget then
+        local valueWidget = rankWidget:getChildById('value')
+        if valueWidget then
+            valueWidget:parseColoredText(string.format("[color=%s]%s[/color]", color or "#ffffff", rank), "#ffffff")
+        end
+    end
+
+    local tooltip = buildHonorTooltip()
+    local pointsWidget = skillsWindow:recursiveGetChildById('honorPoints')
+    if pointsWidget then
+        pointsWidget:setTooltip(tooltip)
+    end
+    if rankWidget then
+        rankWidget:setTooltip(tooltip)
+    end
+end
+
+function onHonorPointsOpcode(protocol, opcode, data)
+    if not data or data.topic ~= "honor-points" then
+        return
+    end
+    onHonorPointsChange(data.points)
 end
 
 local function updateExperienceRate(localPlayer)

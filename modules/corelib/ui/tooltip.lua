@@ -196,7 +196,11 @@ function g_tooltip.display(text)
         return
     end
 
-    toolTipLabel:setText(text)
+    if text:find("%[color=#?%x+%].-%[/color%]") then
+        toolTipLabel:parseColoredText(text, '#3f3f3fff')
+    else
+        toolTipLabel:setText(text)
+    end
     toolTipLabel:resizeToText()
     toolTipLabel:resize(toolTipLabel:getWidth() + 4, toolTipLabel:getHeight() + 4)
     toolTipLabel:show()
@@ -218,7 +222,7 @@ function g_tooltip.parseColoreDisplay(text)
         return
     end
 
-    toolTipLabel:parseColoredText(text)
+    toolTipLabel:parseColoredText(text, '#3f3f3fff')
     toolTipLabel:resizeToText()
     toolTipLabel:resize(toolTipLabel:getWidth() + 4, toolTipLabel:getHeight() + 4)
     toolTipLabel:show()

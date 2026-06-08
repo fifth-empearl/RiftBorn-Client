@@ -149,11 +149,94 @@ function getIconsImagePath(category)
     return '/images/game/creatureicons/quests'
 end
 
+HonorIcons = HonorIcons or {}
+HonorIcons.configPath = '/data/otml/honor_icons.otml'
+HonorIcons.entries = nil
+
+local function stripHonorConfigValue(value)
+    value = value:match('^%s*(.-)%s*$')
+    return value:gsub('^"', ''):gsub('"$', '')
+end
+
+local function loadHonorIconEntries()
+    if HonorIcons.entries then
+        return HonorIcons.entries
+    end
+
+    local entries = {}
+    local contents = g_resources.readFileContents(HonorIcons.configPath)
+    if not contents then
+        print('[HonorIcons] Could not read ' .. HonorIcons.configPath)
+        HonorIcons.entries = entries
+        return entries
+    end
+
+    local current
+    for line in contents:gmatch('[^\r\n]+') do
+        local name = line:match('^%s%s([^:%s][^:]-):%s*$')
+        if name and name ~= 'honor_icons' then
+            current = { name = stripHonorConfigValue(name) }
+            table.insert(entries, current)
+        elseif current then
+            local key, value = line:match('^%s%s%s%s([%w_%-]+):%s*(.-)%s*$')
+            if key then
+                value = stripHonorConfigValue(value)
+                if key == 'min' or key == 'max' or key == 'icon' then
+                    current[key] = tonumber(value)
+                else
+                    current[key] = value
+                end
+            end
+        end
+    end
+
+    for i = #entries, 1, -1 do
+        local entry = entries[i]
+        if not entry.min or not entry.max or not entry.icon then
+            print('[HonorIcons] Invalid entry in ' .. HonorIcons.configPath .. ': ' .. (entry.name or '?'))
+            table.remove(entries, i)
+        end
+    end
+
+    table.sort(entries, function(a, b)
+        return a.min < b.min
+    end)
+
+    HonorIcons.entries = entries
+    return entries
+end
+
+function HonorIcons.getForPoints(points)
+    points = tonumber(points) or 0
+    if points <= 0 then
+        return nil
+    end
+
+    for _, entry in ipairs(loadHonorIconEntries()) do
+        if points >= entry.min and points <= entry.max then
+            return entry
+        end
+    end
+    return nil
+end
+
+function HonorIcons.getEntries()
+    return loadHonorIconEntries()
+end
+
 function Creature:onIconsChange(icon, category, count)
+    if category == 2 then
+        local honor = HonorIcons.getForPoints(count)
+        if honor then
+            self:setIconsTexture('/images/honors/' .. honor.icon, torect('0 0 18 18'), 0, category)
+        end
+        return
+    end
+
     local imagePath = getIconsImagePath(category)
     if imagePath then
         local clipX = (icon - 1) * 11
-        self:setIconsTexture(imagePath, torect(clipX .. ' 0 11 11'), count)
+        self:setIconsTexture(imagePath, torect(clipX .. ' 0 11 11'), count, category)
     end
     -- Apply fiendish text shader only to monsters and only when the icon matches
     if type(self.isMonster) ~= 'function' or not self:isMonster() then

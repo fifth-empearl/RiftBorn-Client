@@ -168,6 +168,20 @@ MiniWindow
       SkillValueLabel
 
     SkillButton
+      id: honorPoints
+      height: 15
+      SkillNameLabel
+        !text: tr('Honor Points')
+      SkillValueLabel
+
+    SkillButton
+      id: honorRank
+      height: 15
+      SkillNameLabel
+        !text: tr('Honor Rank')
+      SkillValueLabel
+
+    SkillButton
       id: capacity
       height: 15
       SkillNameLabel

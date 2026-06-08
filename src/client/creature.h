@@ -78,7 +78,7 @@ public:
     void setPassable(const bool passable) { m_passable = passable; }
     void setMountShader(std::string_view name);
     void setStaticWalking(uint16_t v);
-    void setIconsTexture(const std::string& filename, const Rect& clip, const uint16_t count);
+    void setIconsTexture(const std::string& filename, const Rect& clip, const uint16_t count, const uint8_t category = 0);
 
     void onStartAttachEffect(const AttachedEffectPtr& effect) override;
     void onDispatcherAttachEffect(const AttachedEffectPtr& effect) override;
@@ -271,6 +271,7 @@ private:
             TexturePtr texture;
             Rect clip;
             uint16_t count{ 0 };
+            uint8_t category{ 0 };
         };
 
         std::vector<AtlasIconGroup> atlasGroups;

@@ -1,0 +1,9 @@
+Module
+  name: game_iconsManagement
+  description: game icons management
+  author: Fifth
+  scripts: [ iconsManagement ]
+  autoload: true
+  sandboxed: true
+  @onLoad: init()
+  @onUnload: terminate()

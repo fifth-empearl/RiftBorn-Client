@@ -28,6 +28,8 @@
 
 #include "framework/core/declarations.h"
 
+#include <algorithm>
+
  //@bindsingleton g_game
 class Game
 {
@@ -487,7 +489,84 @@ public:
     auto getWalkMaxSteps() { return m_walkMaxSteps; }
     void setWalkMaxSteps(uint8_t v) { m_walkMaxSteps = v; }
 
+    void setDynamicFillSpacingX(int value) { m_dynamicFillSpacingX = clampInt(value, 0, 128); }
+    int getDynamicFillSpacingX() { return m_dynamicFillSpacingX; }
+    void setDynamicFillSpacingY(int value) { m_dynamicFillSpacingY = clampInt(value, 0, 128); }
+    int getDynamicFillSpacingY() { return m_dynamicFillSpacingY; }
+    void setDynamicFillIconsPerRow(int value) { m_dynamicFillIconsPerRow = clampInt(value, 1, 16); }
+    int getDynamicFillIconsPerRow() { return m_dynamicFillIconsPerRow; }
+    void setDynamicFillBaseX(float value) { m_dynamicFillBaseX = clampIconOffset(value); }
+    float getDynamicFillBaseX() { return m_dynamicFillBaseX; }
+    void setDynamicFillBaseY(float value) { m_dynamicFillBaseY = clampIconOffset(value); }
+    float getDynamicFillBaseY() { return m_dynamicFillBaseY; }
+
+    void setSkullDynamicFill(bool enable) { m_skullDynamicFill = enable; }
+    bool isSkullDynamicFill() { return m_skullDynamicFill; }
+    void setSkullXOffset(float value) { m_skullXOffset = clampIconOffset(value); }
+    float getSkullXOffset() { return m_skullXOffset; }
+    void setSkullYOffset(float value) { m_skullYOffset = clampIconOffset(value); }
+    float getSkullYOffset() { return m_skullYOffset; }
+
+    void setMonsterSkullDynamicFill(bool enable) { m_monsterSkullDynamicFill = enable; }
+    bool isMonsterSkullDynamicFill() { return m_monsterSkullDynamicFill; }
+    void setMonsterSkullXOffset(float value) { m_monsterSkullXOffset = clampIconOffset(value); }
+    float getMonsterSkullXOffset() { return m_monsterSkullXOffset; }
+    void setMonsterSkullYOffset(float value) { m_monsterSkullYOffset = clampIconOffset(value); }
+    float getMonsterSkullYOffset() { return m_monsterSkullYOffset; }
+
+    void setShieldDynamicFill(bool enable) { m_shieldDynamicFill = enable; }
+    bool isShieldDynamicFill() { return m_shieldDynamicFill; }
+    void setShieldXOffset(float value) { m_shieldXOffset = clampIconOffset(value); }
+    float getShieldXOffset() { return m_shieldXOffset; }
+    void setShieldYOffset(float value) { m_shieldYOffset = clampIconOffset(value); }
+    float getShieldYOffset() { return m_shieldYOffset; }
+
+    void setEmblemDynamicFill(bool enable) { m_emblemDynamicFill = enable; }
+    bool isEmblemDynamicFill() { return m_emblemDynamicFill; }
+    void setEmblemXOffset(float value) { m_emblemXOffset = clampIconOffset(value); }
+    float getEmblemXOffset() { return m_emblemXOffset; }
+    void setEmblemYOffset(float value) { m_emblemYOffset = clampIconOffset(value); }
+    float getEmblemYOffset() { return m_emblemYOffset; }
+
+    void setCreatureTypeDynamicFill(bool enable) { m_creatureTypeDynamicFill = enable; }
+    bool isCreatureTypeDynamicFill() { return m_creatureTypeDynamicFill; }
+    void setCreatureTypeXOffset(float value) { m_creatureTypeXOffset = clampIconOffset(value); }
+    float getCreatureTypeXOffset() { return m_creatureTypeXOffset; }
+    void setCreatureTypeYOffset(float value) { m_creatureTypeYOffset = clampIconOffset(value); }
+    float getCreatureTypeYOffset() { return m_creatureTypeYOffset; }
+
+    void setNpcIconDynamicFill(bool enable) { m_npcIconDynamicFill = enable; }
+    bool isNpcIconDynamicFill() { return m_npcIconDynamicFill; }
+    void setNpcIconXOffset(float value) { m_npcIconXOffset = clampIconOffset(value); }
+    float getNpcIconXOffset() { return m_npcIconXOffset; }
+    void setNpcIconYOffset(float value) { m_npcIconYOffset = clampIconOffset(value); }
+    float getNpcIconYOffset() { return m_npcIconYOffset; }
+
+    void setHonorDynamicFill(bool enable) { m_honorDynamicFill = enable; }
+    bool isHonorDynamicFill() { return m_honorDynamicFill; }
+    void setHonorXOffset(float value) { m_honorXOffset = clampIconOffset(value); }
+    float getHonorXOffset() { return m_honorXOffset; }
+    void setHonorYOffset(float value) { m_honorYOffset = clampIconOffset(value); }
+    float getHonorYOffset() { return m_honorYOffset; }
+    void setDrawOwnHonorIcon(bool enable) { m_drawOwnHonorIcon = enable; }
+    bool isDrawOwnHonorIcon() { return m_drawOwnHonorIcon; }
+    void setDrawOthersHonorIcon(bool enable) { m_drawOthersHonorIcon = enable; }
+    bool isDrawOthersHonorIcon() { return m_drawOthersHonorIcon; }
+
 private:
+    static int clampInt(int value, int minValue, int maxValue) {
+        return std::max(minValue, std::min(maxValue, value));
+    }
+
+    static float clampFloat(float value, float minValue, float maxValue) {
+        if (value != value) {
+            return 0.0f;
+        }
+        return std::max(minValue, std::min(maxValue, value));
+    }
+
+    static float clampIconOffset(float value) { return clampFloat(value, -512.0f, 512.0f); }
+
     void setAttackingCreature(const CreaturePtr& creature);
     void setFollowingCreature(const CreaturePtr& creature);
 
@@ -518,6 +597,34 @@ private:
     std::pair<uint16_t, Timer> m_mapUpdateTimer = { true, Timer{} };
 
     uint8_t m_walkMaxSteps{ 1 };
+    int m_dynamicFillSpacingX{ 12 };
+    int m_dynamicFillSpacingY{ 12 };
+    int m_dynamicFillIconsPerRow{ 3 };
+    float m_dynamicFillBaseX{ 13.5f };
+    float m_dynamicFillBaseY{ 8.0f };
+    bool m_skullDynamicFill{ true };
+    float m_skullXOffset{ 37.0f };
+    float m_skullYOffset{ 11.0f };
+    bool m_monsterSkullDynamicFill{ false };
+    float m_monsterSkullXOffset{ 10.0f };
+    float m_monsterSkullYOffset{ -30.0f };
+    bool m_shieldDynamicFill{ true };
+    float m_shieldXOffset{ -17.5f };
+    float m_shieldYOffset{ 10.0f };
+    bool m_emblemDynamicFill{ true };
+    float m_emblemXOffset{ -17.5f };
+    float m_emblemYOffset{ -3.0f };
+    bool m_creatureTypeDynamicFill{ true };
+    float m_creatureTypeXOffset{ 1.5f };
+    float m_creatureTypeYOffset{ 1.0f };
+    bool m_npcIconDynamicFill{ true };
+    float m_npcIconXOffset{ 28.5f };
+    float m_npcIconYOffset{ 4.0f };
+    bool m_honorDynamicFill{ false };
+    float m_honorXOffset{ 37.0f };
+    float m_honorYOffset{ -12.0f };
+    bool m_drawOwnHonorIcon{ true };
+    bool m_drawOthersHonorIcon{ true };
     uint8_t m_openPvpSituations{ 0 };
     uint16_t m_serverBeat{ 50 };
     uint16_t m_pingDelay{ 1000 };

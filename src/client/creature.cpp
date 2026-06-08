@@ -323,29 +323,85 @@ void Creature::drawInformation(const MapPosInfo& mapRect, const Point& dest, con
         }
     }
 
-    if (m_skull != Otc::SkullNone && m_skullTexture)
-        g_drawPool.addTexturedPos(m_skullTexture, backgroundRect.x() + 15.5 + 12, backgroundRect.y() + 5);
+    const int iconsPerRow = g_game.getDynamicFillIconsPerRow();
+    const int spacingX = g_game.getDynamicFillSpacingX();
+    const int spacingY = g_game.getDynamicFillSpacingY();
+    const float baseX = g_game.getDynamicFillBaseX();
+    const float baseY = g_game.getDynamicFillBaseY();
+    int currentRow = 0;
+    int currentColumn = 0;
 
-    if (m_shield != Otc::ShieldNone && m_shieldTexture && m_showShieldTexture)
-        g_drawPool.addTexturedPos(m_shieldTexture, backgroundRect.x() + 15.5, backgroundRect.y() + 5);
+    const auto advanceDynamicIcon = [&] {
+        if (++currentColumn >= iconsPerRow) {
+            currentColumn = 0;
+            ++currentRow;
+        }
+    };
 
-    if (m_emblem != Otc::EmblemNone && m_emblemTexture)
-        g_drawPool.addTexturedPos(m_emblemTexture, backgroundRect.x() + 15.5 + 12, backgroundRect.y() + 16);
+    const auto dynamicPoint = [&] {
+        return Point(
+            static_cast<int>(std::lround(backgroundRect.x() + baseX + currentColumn * spacingX)),
+            static_cast<int>(std::lround(backgroundRect.y() + baseY + currentRow * spacingY))
+        );
+    };
 
-    if (m_type != Proto::CreatureTypeUnknown && m_typeTexture)
-        g_drawPool.addTexturedPos(m_typeTexture, backgroundRect.x() + 15.5 + 12 + 12, backgroundRect.y() + 16);
+    const auto fixedPoint = [&](float xOffset, float yOffset) {
+        return Point(
+            static_cast<int>(std::lround(backgroundRect.x() + xOffset)),
+            static_cast<int>(std::lround(backgroundRect.y() + yOffset))
+        );
+    };
 
-    if (m_icon != Otc::NpcIconNone && m_iconTexture)
-        g_drawPool.addTexturedPos(m_iconTexture, backgroundRect.x() + 15.5 + 12, backgroundRect.y() + 5);
+    const auto drawCreatureInfoIcon = [&](const TexturePtr& texture, bool dynamicFill, float xOffset, float yOffset) {
+        if (!texture) {
+            return;
+        }
+
+        g_drawPool.addTexturedPoint(texture, dynamicFill ? dynamicPoint() : fixedPoint(xOffset, yOffset));
+        if (dynamicFill) {
+            advanceDynamicIcon();
+        }
+    };
+
+    if (m_skull != Otc::SkullNone && m_skullTexture) {
+        const bool dynamicFill = isMonster() ? g_game.isMonsterSkullDynamicFill() : g_game.isSkullDynamicFill();
+        drawCreatureInfoIcon(
+            m_skullTexture,
+            dynamicFill,
+            isMonster() ? g_game.getMonsterSkullXOffset() : g_game.getSkullXOffset(),
+            isMonster() ? g_game.getMonsterSkullYOffset() : g_game.getSkullYOffset()
+        );
+    }
+
+    if (m_shield != Otc::ShieldNone && m_shieldTexture && m_showShieldTexture) {
+        drawCreatureInfoIcon(m_shieldTexture, g_game.isShieldDynamicFill(), g_game.getShieldXOffset(), g_game.getShieldYOffset());
+    }
+
+    if (m_emblem != Otc::EmblemNone && m_emblemTexture) {
+        drawCreatureInfoIcon(m_emblemTexture, g_game.isEmblemDynamicFill(), g_game.getEmblemXOffset(), g_game.getEmblemYOffset());
+    }
+
+    if (m_type != Proto::CreatureTypeUnknown && m_typeTexture) {
+        drawCreatureInfoIcon(m_typeTexture, g_game.isCreatureTypeDynamicFill(), g_game.getCreatureTypeXOffset(), g_game.getCreatureTypeYOffset());
+    }
+
+    if (m_icon != Otc::NpcIconNone && m_iconTexture) {
+        drawCreatureInfoIcon(m_iconTexture, g_game.isNpcIconDynamicFill(), g_game.getNpcIconXOffset(), g_game.getNpcIconYOffset());
+    }
 
     if (g_gameConfig.drawTyping() && getTyping() && m_typingIconTexture)
         g_drawPool.addTexturedPos(m_typingIconTexture, p.x + (nameSize.width() / 2.0) + 2, textRect.y() - 4);
 
     if (g_game.getClientVersion() >= 1281 && m_icons && !m_icons->atlasGroups.empty()) {
-        int iconOffset = 0;
         for (const auto& iconTex : m_icons->atlasGroups) {
             if (!iconTex.texture) continue;
-            const Rect dest(backgroundRect.x() + 15.5 + 12, backgroundRect.y() + 5 + iconOffset * 14, iconTex.clip.size());
+            const bool isHonorIcon = iconTex.category == 2;
+            if (isHonorIcon && ((isLocalPlayer() && !g_game.isDrawOwnHonorIcon()) || (!isLocalPlayer() && isPlayer() && !g_game.isDrawOthersHonorIcon()))) {
+                continue;
+            }
+            const bool dynamicFill = isHonorIcon ? g_game.isHonorDynamicFill() : true;
+            const auto iconPos = dynamicFill ? dynamicPoint() : fixedPoint(g_game.getHonorXOffset(), g_game.getHonorYOffset());
+            const Rect dest(iconPos, iconTex.clip.size());
             g_drawPool.addTexturedRect(dest, iconTex.texture, iconTex.clip);
             // draw count only when greater than 0
             if (iconTex.count > 0) {
@@ -354,7 +410,9 @@ void Creature::drawInformation(const MapPosInfo& mapRect, const Point& dest, con
                 const Rect numberRect(dest.right() + 2, dest.y() + (dest.height() - textSize.height()) / 2, textSize);
                 m_icons->numberText.draw(numberRect, Color::white);
             }
-            ++iconOffset;
+            if (dynamicFill) {
+                advanceDynamicIcon();
+            }
         }
     }
 
@@ -1000,7 +1058,7 @@ void Creature::setEmblem(const uint8_t v) { if (m_emblem != v) callLuaField("onE
 
 void Creature::setTypeTexture(const std::string& filename) { m_typeTexture = g_textures.getTexture(filename); }
 void Creature::setIconTexture(const std::string& filename) { m_iconTexture = g_textures.getTexture(filename); }
-void Creature::setIconsTexture(const std::string& filename, const Rect& clip, const uint16_t count)
+void Creature::setIconsTexture(const std::string& filename, const Rect& clip, const uint16_t count, const uint8_t category)
 {
     if (!m_icons) {
         m_icons = std::make_unique<IconRenderData>();
@@ -1008,7 +1066,7 @@ void Creature::setIconsTexture(const std::string& filename, const Rect& clip, co
         m_icons->numberText.setAlign(Fw::AlignCenter);
     }
 
-    m_icons->atlasGroups.emplace_back(IconRenderData::AtlasIconGroup{ g_textures.getTexture(filename), clip, count });
+    m_icons->atlasGroups.emplace_back(IconRenderData::AtlasIconGroup{ g_textures.getTexture(filename), clip, count, category });
 }
 void Creature::setSkullTexture(const std::string& filename) { m_skullTexture = g_textures.getTexture(filename); }
 void Creature::setEmblemTexture(const std::string& filename) { m_emblemTexture = g_textures.getTexture(filename); }

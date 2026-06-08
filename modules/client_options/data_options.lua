@@ -292,6 +292,18 @@ return {
             panels.gameMapPanel:setDrawHarmony(value)
         end
     },
+    drawOwnHonorIcon                  = {
+        value = true,
+        action = function(value, options, controller, panels, extraWidgets)
+            g_game.setDrawOwnHonorIcon(value)
+        end
+    },
+    drawOthersHonorIcon               = {
+        value = true,
+        action = function(value, options, controller, panels, extraWidgets)
+            g_game.setDrawOthersHonorIcon(value)
+        end
+    },
     displayText                       = {
         value = true,
         action = function(value, options, controller, panels, extraWidgets)
