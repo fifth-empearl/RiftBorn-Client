@@ -35,8 +35,11 @@ function UIScrollArea:onStyleApply(styleName, styleNode)
 end
 
 function UIScrollArea:updateScrollBars()
-    local scrollWidth = math.max(self:getChildrenRect().width - self:getPaddingRect().width, 0)
-    local scrollHeight = math.max(self:getChildrenRect().height - self:getPaddingRect().height, 0)
+    local childrenRect = self:getChildrenRect()
+    local paddingRect = self:getPaddingRect()
+    local virtualOffset = self:getVirtualOffset()
+    local scrollWidth = math.max((childrenRect.x + childrenRect.width + virtualOffset.x) - (paddingRect.x + paddingRect.width), 0)
+    local scrollHeight = math.max((childrenRect.y + childrenRect.height + virtualOffset.y) - (paddingRect.y + paddingRect.height), 0)
 
     local scrollbar = self.verticalScrollBar
     if scrollbar then
@@ -149,29 +152,46 @@ function UIScrollArea:onMouseWheel(mousePos, mouseWheel)
     return true
 end
 
-function UIScrollArea:ensureChildVisible(child)
-    if child then
-        local paddingRect = self:getPaddingRect()
-        if self.verticalScrollBar then
-            local deltaY = paddingRect.y - child:getY()
-            if deltaY > 0 then
-                self.verticalScrollBar:decrement(deltaY)
-            end
+function UIScrollArea:ensureChildVisible(child, offset)
+    if self.dragging or not child then
+        return
+    end
 
-            deltaY = (child:getY() + child:getHeight()) - (paddingRect.y + paddingRect.height)
-            if deltaY > 0 then
-                self.verticalScrollBar:increment(deltaY)
-            end
-        elseif self.horizontalScrollBar then
-            local deltaX = paddingRect.x - child:getX()
-            if deltaX > 0 then
-                self.horizontalScrollBar:decrement(deltaX)
-            end
+    local paddingRect = self:getPaddingRect()
+    local childRect = {
+        x = child:getX(),
+        y = child:getY(),
+        width = child:getWidth(),
+        height = child:getHeight()
+    }
 
-            deltaX = (child:getX() + child:getWidth()) - (paddingRect.x + paddingRect.width)
-            if deltaX > 0 then
-                self.horizontalScrollBar:increment(deltaX)
-            end
+    offset = offset or { x = 0, y = 0 }
+
+    if childRect.width > paddingRect.width or childRect.height > paddingRect.height then
+        return
+    end
+
+    if self.verticalScrollBar then
+        local deltaY = paddingRect.y - childRect.y
+        if deltaY > 0 then
+            self.verticalScrollBar:decrement(deltaY)
+        end
+
+        deltaY = (childRect.y + childRect.height + offset.y) - (paddingRect.y + paddingRect.height)
+        if deltaY > 0 then
+            self.verticalScrollBar:increment(deltaY)
+        end
+    end
+
+    if self.horizontalScrollBar then
+        local deltaX = paddingRect.x - childRect.x
+        if deltaX > 0 then
+            self.horizontalScrollBar:decrement(deltaX)
+        end
+
+        deltaX = (childRect.x + childRect.width + offset.x) - (paddingRect.x + paddingRect.width)
+        if deltaX > 0 then
+            self.horizontalScrollBar:increment(deltaX)
         end
     end
 end

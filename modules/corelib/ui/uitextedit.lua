@@ -30,6 +30,34 @@ function UITextEdit:onMouseWheel(mousePos, mouseWheel)
     end
 end
 
+function UITextEdit:saveUserTextVirtualOffset()
+    local virtualOffset = self:getTextVirtualOffset()
+    self.userTextVirtualOffset = { x = virtualOffset.x, y = virtualOffset.y }
+end
+
+function UITextEdit:restoreUserTextVirtualOffset()
+    local savedOffset = self.userTextVirtualOffset
+    if not savedOffset then
+        return
+    end
+
+    local virtualOffset = self:getTextVirtualOffset()
+    if virtualOffset.x == savedOffset.x and virtualOffset.y == savedOffset.y then
+        return
+    end
+
+    virtualOffset.x = savedOffset.x
+    virtualOffset.y = savedOffset.y
+    self:setTextVirtualOffset(virtualOffset)
+    self:updateScrollBars()
+end
+
+function UITextEdit:onFocusChange(focused, reason)
+    if focused and reason == MouseFocusReason and self:isMultiline() then
+        self:restoreUserTextVirtualOffset()
+    end
+end
+
 function UITextEdit:onTextAreaUpdate(virtualOffset, virtualSize, totalSize)
     self:updateScrollBars()
 end
@@ -40,6 +68,9 @@ function UITextEdit:setVerticalScrollBar(scrollbar)
         local virtualOffset = self:getTextVirtualOffset()
         virtualOffset.y = value
         self:setTextVirtualOffset(virtualOffset)
+        if not self.updatingTextScrollBars then
+            self:saveUserTextVirtualOffset()
+        end
     end
     self:updateScrollBars()
 end
@@ -50,6 +81,9 @@ function UITextEdit:setHorizontalScrollBar(scrollbar)
         local virtualOffset = self:getTextVirtualOffset()
         virtualOffset.x = value
         self:setTextVirtualOffset(virtualOffset)
+        if not self.updatingTextScrollBars then
+            self:saveUserTextVirtualOffset()
+        end
     end
     self:updateScrollBars()
 end
@@ -61,16 +95,20 @@ function UITextEdit:updateScrollBars()
 
     local scrollbar = self.verticalScrollBar
     if scrollbar then
+        self.updatingTextScrollBars = true
         scrollbar:setMinimum(0)
         scrollbar:setMaximum(scrollHeight)
         scrollbar:setValue(self:getTextVirtualOffset().y)
+        self.updatingTextScrollBars = false
     end
 
     local scrollbar = self.horizontalScrollBar
     if scrollbar then
+        self.updatingTextScrollBars = true
         scrollbar:setMinimum(0)
         scrollbar:setMaximum(scrollWidth)
         scrollbar:setValue(self:getTextVirtualOffset().x)
+        self.updatingTextScrollBars = false
     end
 
 end

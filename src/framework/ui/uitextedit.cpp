@@ -177,11 +177,18 @@ void UITextEdit::drawSelf(const DrawPoolType drawPane)
             }
         }
 
-        for (const auto& rect : m_glyphsSelectBgRectCache)
-            g_drawPool.addFilledRect(rect, m_selectionBackgroundColor);
+        const Rect oldClipRect = g_drawPool.getClipRect();
+        const Rect selectionClipRect = oldClipRect.isValid() ? oldClipRect.intersection(m_drawArea) : m_drawArea;
 
-        for (const auto& it : m_glyphsSelectRectCache)
+        for (const auto& rect : m_glyphsSelectBgRectCache) {
+            g_drawPool.setClipRect(selectionClipRect, true);
+            g_drawPool.addFilledRect(rect, m_selectionBackgroundColor);
+        }
+
+        for (const auto& it : m_glyphsSelectRectCache) {
+            g_drawPool.setClipRect(selectionClipRect, true);
             g_drawPool.addTexturedRect(it.first, texture, it.second, m_selectionColor);
+        }
     }
 
     if (isExplicitlyEnabled() && getProp(PropCursorVisible) && getProp(PropCursorInRange) && isActive() && m_cursorPos >= 0) {
@@ -1351,11 +1358,12 @@ void UITextEdit::onGeometryChange(const Rect& oldRect, const Rect& newRect)
 void UITextEdit::onFocusChange(const bool focused, const Fw::FocusReason reason)
 {
     if (focused) {
-        if (reason == Fw::KeyboardFocusReason)
+        if (reason == Fw::KeyboardFocusReason) {
             setCursorPos(m_text.length());
-        else
+        } else {
             blinkCursor();
-        update(true);
+            update(false);
+        }
 #ifdef ANDROID
         // Only show keyboard on user interaction (mouse/touch), not programmatic focus
         if (getProp(PropEditable) && reason == Fw::MouseFocusReason) {
@@ -1679,7 +1687,34 @@ bool UITextEdit::onMouseMove(const Point& mousePos, const Point& mouseMoved)
         return true;
 
     if (getProp(PropSelectable) && isPressed()) {
-        const int pos = getTextPos(mousePos);
+        Point selectPos = mousePos;
+        if (getProp(PropMultiline) && m_drawArea.isValid()) {
+            Point virtualOffset = m_textVirtualOffset;
+            const int maxY = std::max(0, m_textTotalSize.height() - m_textVirtualSize.height());
+            const int maxX = std::max(0, m_textTotalSize.width() - m_textVirtualSize.width());
+            const int lineStep = std::max(1, m_font->getGlyphHeight());
+
+            if (mousePos.y < m_drawArea.top()) {
+                virtualOffset.y = std::max(0, virtualOffset.y - std::max(lineStep, m_drawArea.top() - mousePos.y));
+                selectPos.y = m_drawArea.top();
+            } else if (mousePos.y > m_drawArea.bottom()) {
+                virtualOffset.y = std::min(maxY, virtualOffset.y + std::max(lineStep, mousePos.y - m_drawArea.bottom()));
+                selectPos.y = m_drawArea.bottom();
+            }
+
+            if (mousePos.x < m_drawArea.left()) {
+                virtualOffset.x = std::max(0, virtualOffset.x - std::max(lineStep, m_drawArea.left() - mousePos.x));
+                selectPos.x = m_drawArea.left();
+            } else if (mousePos.x > m_drawArea.right()) {
+                virtualOffset.x = std::min(maxX, virtualOffset.x + std::max(lineStep, mousePos.x - m_drawArea.right()));
+                selectPos.x = m_drawArea.right();
+            }
+
+            if (virtualOffset != m_textVirtualOffset)
+                setTextVirtualOffset(virtualOffset);
+        }
+
+        const int pos = getTextPos(selectPos);
         if (pos >= 0) {
             setSelection(m_selectionReference, pos);
             setCursorPos(pos, false);
