@@ -1,0 +1,10 @@
+Module
+  name: game_waypoints
+  description: Waypoint fast travel
+  author: Fifth
+  autoload: true
+  sandboxed: true
+  dependencies: [ game_interface, game_minimap ]
+  scripts: [ 0_data, waypoints ]
+  @onLoad: Waypoints.init()
+  @onUnload: Waypoints.terminate()
