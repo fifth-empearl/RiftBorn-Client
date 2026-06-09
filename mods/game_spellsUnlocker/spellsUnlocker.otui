@@ -145,7 +145,7 @@ MainWindow
     Panel
       id: border
       anchors.fill: parent
-      image-source: /game_spellsUnlocker/images/ui/borders/43
+      image-source: /images/ui/borders/43
       image-border: 15
       margin: -2
 

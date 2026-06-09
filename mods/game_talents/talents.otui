@@ -1,0 +1,337 @@
+TalentButton < RoundedButton
+  width: 64
+  height: 20
+  text: Level up
+  !tooltip: tr("Ctrl + left click levels up without confirmation")
+
+TalentEntry < Panel
+  size: 64 64
+  image-smooth: true
+
+TalentEntryBorder < Panel
+  size: 72 72
+  image-smooth: true
+  anchors.centerIn: parent
+  phantom: false
+
+TalentEntryLevel < FlatPanel
+  margin-top: -27
+  margin-left: -18
+  text-auto-resize: true
+  padding: 4
+
+TalentBackground < UIWidget
+  anchors.top: parent.top
+  anchors.left: parent.left
+  opacity: 0.12
+  image-fixed-ratio: false
+  image-repeat: false
+  image-smooth: true
+  size: 1 1
+
+TalentsCategoryEntry < UIWidget
+  size: 100 100
+  border-width: 1
+  border-color: #272727
+  margin: 2
+  margin-left: 20
+  margin-right: 20
+  background-color: #00000090
+  $focus:
+    border-width: 1
+    border-color: #f5971e
+
+  UIWidget
+    id: TalentsCategoryEntryIcon
+    size: 42 42
+    border-width: 1
+    border-color: #D0A92D
+    anchors.top: parent.top
+    anchors.horizontalCenter: parent.horizontalCenter
+    margin-top: 5
+
+  Label
+    id: TalentsCategoryEntryName
+    anchors.bottom: parent.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    margin-bottom: 2
+    text-align: center
+    text-wrap: true
+
+  UIWidget
+    id: lock
+    anchors.fill: parent
+    image-source: /game_talents/images/icon-lock-red
+    background-color: black
+    opacity: 0.7
+    visible: false
+    phantom: false
+    image-size: 12 12
+    image-offset: 5 5
+
+MessageBase < UIWidget
+  !text: tr('.')
+  text-offset: 0 5
+  text-align: top
+  size: 300 150
+  image-source: /images/ui/window
+  image-border: 6
+  image-border-top: 27
+  anchors.centerIn: parent
+  visible: false
+
+  RoundedButton
+    id: ConfirmButton
+    anchors.horizontalCenter: parent.horizontalCenter
+    anchors.bottom: parent.bottom
+    margin-bottom: 20
+    !text: tr("OK")
+
+  UIScrollArea
+    id: TextScroll
+    anchors.top: parent.top
+    anchors.left: parent.left
+    anchors.right: TextScrollBar.left
+    anchors.bottom: ConfirmButton.top
+    margin-top: 40
+    margin-left: 20
+    margin-bottom: 10
+    padding: 0
+    layout:
+      type: anchor
+    vertical-scrollbar: TextScrollBar
+
+    Label
+      id: Text
+      anchors.top: parent.top
+      anchors.left: parent.left
+      anchors.right: parent.right
+      text-align: center
+      text-wrap: true
+      text-auto-resize: true
+
+  VerticalScrollBar
+    id: TextScrollBar
+    anchors.top: parent.top
+    anchors.bottom: ConfirmButton.top
+    anchors.right: parent.right
+    margin-top: 40
+    margin-bottom: 10
+    margin-right: 18
+    pixels-scroll: true
+    step: 24
+    visible: false
+
+ConfirmMessageBase < UIWidget
+  !text: tr('.')
+  text-offset: 0 5
+  text-align: top
+  size: 300 150
+  image-source: /images/ui/window
+  image-border: 6
+  image-border-top: 27
+  anchors.centerIn: parent
+  visible: false
+
+  RoundedButton
+    id: ConfirmButton
+    anchors.right: parent.right
+    anchors.bottom: parent.bottom
+    margin-bottom: 20
+    margin-right: 20
+    !text: tr("Yes")
+
+  RoundedButton
+    id: CancelButton
+    anchors.left: parent.left
+    anchors.bottom: parent.bottom
+    margin-bottom: 20
+    margin-left: 20
+    !text: tr("No")
+
+  UIScrollArea
+    id: TextScroll
+    anchors.top: parent.top
+    anchors.left: parent.left
+    anchors.right: TextScrollBar.left
+    anchors.bottom: ConfirmButton.top
+    margin-top: 40
+    margin-left: 20
+    margin-bottom: 10
+    padding: 0
+    layout:
+      type: anchor
+    vertical-scrollbar: TextScrollBar
+
+    Label
+      id: Text
+      anchors.top: parent.top
+      anchors.left: parent.left
+      anchors.right: parent.right
+      text-wrap: true
+      text-auto-resize: true
+
+  VerticalScrollBar
+    id: TextScrollBar
+    anchors.top: parent.top
+    anchors.bottom: ConfirmButton.top
+    anchors.right: parent.right
+    margin-top: 40
+    margin-bottom: 10
+    margin-right: 18
+    pixels-scroll: true
+    step: 24
+    visible: false
+
+LockUI < Panel
+  anchors.fill: parent
+  opacity: 0.3
+  phantom: false
+  visible: false
+  background-color: #8c8c8c
+
+MainWindow
+  id: talentsWindow
+  text: Talents
+  size: 750 750
+  @onEscape: modules.game_talents.Talents.hide()
+
+  UIScrollArea
+    id: talentsCategoryPanel
+    image-source: /images/ui/3pixel-frame-borderimage
+    image-border: 5
+    anchors.top: parent.top
+    anchors.right: parent.right
+    anchors.left: parent.left
+    margin-top: 10
+    margin-left: 10
+    margin-right: 10
+    padding: 5
+    height: 80
+    layout:
+      type: horizontalBox
+      align-top: true
+    horizontal-scrollbar: talentsCategoryPanelHorizontalScrollBar
+
+  HorizontalScrollBar
+    id: talentsCategoryPanelHorizontalScrollBar
+    anchors.left: talentsCategoryPanel.left
+    anchors.right: talentsCategoryPanel.right
+    anchors.bottom: talentsCategoryPanel.bottom
+    margin-bottom: -14
+    pixels-scroll: true
+    step: 50
+
+  UIScrollArea
+    id: totalTalentsPanel
+    text: Total Talents
+    text-align: top
+    text-offset: 0 6
+    image-source: /images/ui/window
+    image-border: 6
+    image-border-top: 27
+    anchors.bottom: parent.bottom
+    anchors.top: talentsCategoryPanel.bottom
+    anchors.left: parent.left
+    margin-top: 30
+    margin-bottom: 40
+    margin-left: 10
+    width: 200
+    padding-top: 36
+    padding-left: 16
+    padding-right: 16
+    padding-bottom: 16
+    layout:
+      type: verticalBox
+      spacing: 1
+      align-top: true
+    vertical-scrollbar: totalTalentsScrollBar
+
+  VerticalScrollBar
+    id: totalTalentsScrollBar
+    anchors.top: totalTalentsPanel.top
+    anchors.bottom: totalTalentsPanel.bottom
+    anchors.right: totalTalentsPanel.right
+    margin-right: -10
+    pixels-scroll: true
+    step: 50
+
+  UIScrollArea
+    id: internalPanel
+    image-source: /images/ui/panel_flat
+    image-border: 1
+    anchors.bottom: parent.bottom
+    anchors.top: talentsCategoryPanel.bottom
+    anchors.left: totalTalentsPanel.right
+    anchors.right: parent.right
+    margin-top: 30
+    margin-bottom: 50
+    margin-left: 20
+    margin-right: 20
+    padding: 4
+    layout:
+      type: anchor
+      align-top: true
+    vertical-scrollbar: internalScrollBar
+    horizontal-scrollbar: internalHorizontalScrollBar
+
+  VerticalScrollBar
+    id: internalScrollBar
+    anchors.top: internalPanel.top
+    anchors.bottom: internalPanel.bottom
+    anchors.right: internalPanel.right
+    margin-right: -10
+    pixels-scroll: true
+    step: 50
+
+  HorizontalScrollBar
+    id: internalHorizontalScrollBar
+    anchors.left: internalPanel.left
+    anchors.right: internalPanel.right
+    anchors.bottom: internalPanel.bottom
+    margin-bottom: -12
+    margin-right: 5
+    pixels-scroll: true
+    step: 50
+
+  Label
+    id: TotalTalentPoints
+    anchors.bottom: parent.bottom
+    anchors.left: parent.left
+    margin-bottom: 0
+    margin-left: 20
+    width: 250
+
+  Label
+    id: AvailableTalentPoints
+    anchors.bottom: TotalTalentPoints.top
+    anchors.left: parent.left
+    margin-bottom: 5
+    margin-left: 20
+    width: 250
+
+  RoundedButton
+    id: CloseButton
+    anchors.right: parent.right
+    anchors.bottom: parent.bottom
+    margin-bottom: 5
+    margin-right: 10
+    !text: tr('Close')
+    @onClick: self:getParent():hide()
+
+  RoundedButton
+    id: ResetButton
+    anchors.left: internalPanel.left
+    anchors.bottom: parent.bottom
+    margin-bottom: 5
+    !text: tr('Reset')
+
+  LockUI
+    id: LockUI
+
+  MessageBase
+    id: MessageBase
+
+  ConfirmMessageBase
+    id: ConfirmMessageBase

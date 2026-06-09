@@ -1,0 +1,31 @@
+UIWindow
+  id: TalentTooltip
+  text-offset: 0 2
+  text-align: top
+  image-source: /images/ui/outfits/minipanel
+  image-border: 9
+  image-border-top: 27
+  size: 350 100
+  phantom: true
+  padding: 15
+
+  Label
+    id: description
+    anchors.top: parent.top
+    anchors.left: parent.left
+    anchors.right: parent.right
+    margin-top: 25
+    margin-right: 5
+    margin-left: 5
+    text-wrap: true
+    text-auto-resize: true
+    text-align: center
+
+  Label
+    id: maxLevel
+    anchors.top: description.bottom
+    anchors.horizontalCenter: parent.horizontalCenter
+    margin-top: 10
+    text-wrap: true
+    text-auto-resize: true
+    text-align: center

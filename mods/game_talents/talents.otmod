@@ -1,0 +1,9 @@
+Module
+  name: game_talents
+  description: Talents
+  author: Fifth
+  sandboxed: true
+  autoload: true
+  scripts: [ 1_data, talents ]
+  @onLoad: Talents.init()
+  @onUnload: Talents.terminate()
