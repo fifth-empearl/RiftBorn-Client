@@ -4,6 +4,6 @@ Module
   author: edubart, BeniS
   website: https://github.com/edubart/otclient
   sandboxed: true
-  scripts: [ minimap ]
+  scripts: [ POI_config, POI, minimap ]
   @onLoad: mapController:init()
   @onUnload: mapController:terminate()

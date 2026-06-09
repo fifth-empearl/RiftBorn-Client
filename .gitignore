@@ -66,7 +66,6 @@ vc18/*
 *.pidb
 *.scc
 *.dll
-*.exe
 *.exp
 *.lib
 *.bak

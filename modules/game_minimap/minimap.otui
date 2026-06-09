@@ -13,11 +13,13 @@ PhantomMiniWindow
     margin-left: 8
     size: 115 111
     image-source: /images/ui/1pixel_down_frame
+    clipping: true
 
     Minimap
       id: minimap
       anchors.fill: parent
       margin: 1
+      clipping: true
 
   UIWidget
     id: layersPanel
@@ -68,28 +70,13 @@ PhantomMiniWindow
       @onClick: downLayer()
 
   Button
-    id: fullMap
-    image-source: /images/automap/automap_buttons
-    image-clip: 0 0 20 20
-    anchors.right: layersPanel.left
-    anchors.bottom: minimapBorder.bottom
-    margin-right: 4
-    size: 20 20
-    @onClick: openCyclopediaMap()
-
-    $hover !disabled:
-      image-clip: 0 0 20 20
-
-    $pressed !disabled:
-      image-clip: 20 0 20 20
-
-  Button
     id: zoomIn
     image-source: /images/automap/automap_buttons
     image-clip: 0 40 20 20
-    anchors.right: fullMap.right
-    anchors.bottom: fullMap.top
-    margin-bottom: 2
+    anchors.right: layersPanel.left
+    anchors.bottom: minimapBorder.bottom
+    margin-right: 4
+    margin-bottom: 15
     size: 20 20
     @onClick: zoomIn()
 
@@ -103,7 +90,7 @@ PhantomMiniWindow
     id: zoomOut
     image-source: /images/automap/automap_buttons
     image-clip: 0 20 20 20
-    anchors.right: fullMap.right
+    anchors.left: zoomIn.left
     anchors.bottom: zoomIn.top
     margin-bottom: 2
     size: 20 20

@@ -1,7 +1,7 @@
 local iconTopMenu = nil
 -- @ Minimap
 local minimapWidget = nil -- bot fix
-local otmm = true
+local bundledMinimapFile = '/data/full_minimap.otmm'
 local oldPos = nil
 local fullscreenWidget
 local virtualFloor = 7
@@ -26,7 +26,7 @@ local function onPositionChange()
         return
     end
 
-    local minimapWidget = mapController.ui.minimapBorder.minimap
+    local minimapWidget = getMiniMapUi()
     if not (minimapWidget) or minimapWidget:isDragging() then
         return
     end
@@ -36,6 +36,9 @@ local function onPositionChange()
     end
 
     minimapWidget:setCrossPosition(pos)
+    if POI and POI.updateLocalPlayerPosition then
+        POI.updateLocalPlayerPosition(pos)
+    end
     virtualFloor = pos.z
     refreshVirtualFloors()
 end
@@ -101,6 +104,11 @@ function mapController:onInit()
     self.ui.minimapBorder.minimap:getChildById('zoomInButton'):hide()
     self.ui.minimapBorder.minimap:getChildById('zoomOutButton'):hide()
     self.ui.minimapBorder.minimap:getChildById('resetButton'):hide()
+
+    if POI and POI.init then
+        POI.init()
+    end
+    g_keyboard.bindKeyDown("Ctrl+Shift+M", openPOIMap)
 end
 
 function mapController:onGameStart()
@@ -115,36 +123,34 @@ function mapController:onGameStart()
     -- Load Map
     g_minimap.clean()
 
-    local minimapFile = '/minimap'
-    local loadFnc = nil
-
-    if otmm then
-        minimapFile = minimapFile .. '.otmm'
-        loadFnc = g_minimap.loadOtmm
-    else
-        minimapFile = minimapFile .. '_' .. g_game.getClientVersion() .. '.otcm'
-        loadFnc = g_map.loadOtcm
-    end
-
-    if g_resources.fileExists(minimapFile) then
-        loadFnc(minimapFile)
+    if g_resources.fileExists(bundledMinimapFile) then
+        g_minimap.loadOtmm(bundledMinimapFile)
     end
 
     self.ui.minimapBorder.minimap:load()
+    if POI and POI.initializePOI then
+        POI.initializePOI()
+    end
 end
 
 function mapController:onGameEnd()
-    -- Save Map
-    if otmm then
-        g_minimap.saveOtmm('/minimap.otmm')
-    else
-        g_map.saveOtcm('/minimap_' .. g_game.getClientVersion() .. '.otcm')
+    if POI and POI.onGameEnd then
+        POI.onGameEnd()
     end
+
+    -- Save/load of player OTMM/OTCM minimap files is disabled.
+    -- The minimap is loaded from data/full_minimap.otmm on game start.
 
     self.ui.minimapBorder.minimap:save()
 end
 
 function mapController:onTerminate()
+    g_keyboard.unbindKeyDown("Ctrl+Shift+M")
+
+    if POI and POI.terminate then
+        POI.terminate()
+    end
+
     if iconTopMenu then
         iconTopMenu:destroy()
         iconTopMenu = nil
@@ -159,12 +165,13 @@ function zoomOut()
     mapController.ui.minimapBorder.minimap:zoomOut()
 end
 
-function openCyclopediaMap()
-    if g_game.getClientVersion() >= 1310 then
-        modules.game_cyclopedia.toggle('map')
-    else
-        return fullscreen()
+function openPOIMap()
+    if POI and POI.toggle then
+        POI.toggle()
+        return
     end
+
+    displayErrorBox(tr("POI Error"), tr("POI module is not loaded. Check modules/game_minimap/POI.lua."))
 end
 
 function fullscreen()
@@ -252,7 +259,33 @@ function resetMap()
 end
 
 function getMiniMapUi()
-    return mapController.ui.minimapBorder.minimap
+    if fullscreenWidget and fullscreenWidget:getParent() then
+        return fullscreenWidget
+    end
+
+    if mapController.ui and mapController.ui.minimapBorder and mapController.ui.minimapBorder.minimap then
+        return mapController.ui.minimapBorder.minimap
+    end
+
+    if modules.game_interface and modules.game_interface.getMapPanel then
+        local mapPanel = modules.game_interface.getMapPanel()
+        local minimap = mapPanel and mapPanel:recursiveGetChildById('minimap')
+        if minimap then
+            fullscreenWidget = minimap
+            return minimap
+        end
+    end
+
+    if modules.game_interface and modules.game_interface.getRootPanel then
+        local rootPanel = modules.game_interface.getRootPanel()
+        local minimap = rootPanel and rootPanel:recursiveGetChildById('minimap')
+        if minimap then
+            fullscreenWidget = minimap
+            return minimap
+        end
+    end
+
+    return nil
 end
 
 function extendedView(extendedView)

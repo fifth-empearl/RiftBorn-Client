@@ -1,5 +1,7 @@
 function UIMinimap:onCreate()
     self.autowalk = true
+    self.walkable = true
+    self.standardMarkers = true
 end
 
 function UIMinimap:onSetup()
@@ -14,10 +16,14 @@ function UIMinimap:onSetup()
     self.zoomFullmap = 0
     self.alternatives = {}
     self.onAddAutomapFlag = function(pos, icon, description)
-        self:addFlag(pos, icon, description)
+        if self.standardMarkers then
+            self:addFlag(pos, icon, description)
+        end
     end
     self.onRemoveAutomapFlag = function(pos, icon, description)
-        self:removeFlag(pos, icon, description)
+        if self.standardMarkers then
+            self:removeFlag(pos, icon, description)
+        end
     end
     connect(g_game, {
         onAddAutomapFlag = self.onAddAutomapFlag,
@@ -67,7 +73,7 @@ end
 function UIMinimap:load()
     local settings = g_settings.getNode('Minimap')
     if settings then
-        if settings.flags then
+        if self.standardMarkers and settings.flags then
             for _, flag in pairs(settings.flags) do
                 self:addFlag(flag.position, flag.icon, flag.description)
             end
@@ -281,6 +287,10 @@ function UIMinimap:onMouseRelease(pos, button)
     end
 
     if button == MouseLeftButton then
+        if not self.walkable then
+            return true
+        end
+
         local player = g_game.getLocalPlayer()
         if g_game.getClientVersion() > 1288 and g_keyboard.isCtrlPressed() and g_keyboard.isShiftPressed() then
             return g_game.sendGmTeleport(mapPos)
@@ -295,6 +305,10 @@ function UIMinimap:onMouseRelease(pos, button)
         end
         return true
     elseif button == MouseRightButton then
+        if not self.standardMarkers then
+            return true
+        end
+
         local menu = g_ui.createWidget('PopupMenu')
         menu:setGameMenu(true)
         menu:addOption(tr('Create mark'), function()
@@ -313,6 +327,10 @@ function UIMinimap:onDragEnter(pos)
 end
 
 function UIMinimap:onDragMove(pos, moved)
+    if not self.dragReference or not self.dragCameraReference then
+        return false
+    end
+
     local scale = self:getScale()
     local dx = (self.dragReference.x - pos.x) / scale
     local dy = (self.dragReference.y - pos.y) / scale
@@ -333,6 +351,10 @@ function UIMinimap:onStyleApply(styleName, styleNode)
     for name, value in pairs(styleNode) do
         if name == 'autowalk' then
             self.autowalk = value
+        elseif name == 'walkable' then
+            self.walkable = value
+        elseif name == 'standard-markers' then
+            self.standardMarkers = value
         end
     end
 end

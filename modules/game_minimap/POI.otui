@@ -1,0 +1,465 @@
+// Shared controls
+
+RoundCheckBox < CheckBox
+  image-source: /images/ui/checkbox_round
+
+  $first:
+    margin-top: 2
+
+  $!first:
+    margin-top: 5
+
+POITextButton < Button
+  height: 16
+  padding: 2
+  text-align: center
+  text-offset: 0 0
+  phantom: false
+  clipping: true
+
+// Main content panels
+
+LegendPanel < FlatPanel
+  margin: 0
+  padding: 10
+  width: 220
+  opacity: 0.9
+  phantom: false
+
+  Label
+    id: legendLabel
+    text: Legend
+    anchors.horizontalCenter: parent.horizontalCenter
+    anchors.top: parent.top
+    margin-top: 0
+    font: Verdana Bold-11px
+    text-auto-resize: true
+
+  HorizontalSeparator
+    anchors.left: legendLabel.left
+    anchors.right: legendLabel.right
+    anchors.top: legendLabel.bottom
+
+  UIScrollArea
+    id: legendsPanel
+    anchors.top: legendLabel.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    margin-top: 5
+    margin-right: 12
+    height: 160
+    vertical-scrollbar: legendsScrollBar
+    pixels-scroll: true
+    layout:
+      type: verticalBox
+      align-top: true
+      spacing: 0
+
+  VerticalScrollBar
+    id: legendsScrollBar
+    anchors.top: legendsPanel.top
+    anchors.bottom: legendsPanel.bottom
+    anchors.right: parent.right
+    pixels-scroll: true
+    step: 32
+
+  POITextButton
+    id: displayAllFilterButton
+    anchors.top: legendsPanel.bottom
+    anchors.left: parent.left
+    margin-top: 10
+    text: Display All
+    width: 68
+
+  POITextButton
+    id: displayNoneFilterButton
+    anchors.top: legendsPanel.bottom
+    anchors.left: displayAllFilterButton.right
+    margin-top: 10
+    margin-left: 8
+    text: Display None
+    width: 76
+
+LegendEntry < FlatPanel
+  height: 32
+  phantom: false
+
+  RoundCheckBox
+    id: filterCheckBox
+    anchors.verticalCenter: parent.verticalCenter
+    anchors.left: parent.left
+    margin-left: 5
+    margin-top: 2
+    size: 22 22
+    phantom: false
+
+  UIWidget
+    id: flagIcon
+    anchors.verticalCenter: parent.verticalCenter
+    anchors.left: filterCheckBox.right
+    margin-left: 0
+    size: 26 26
+
+  Label
+    id: flagName
+    anchors.verticalCenter: parent.verticalCenter
+    anchors.left: flagIcon.right
+    margin-left: 4
+    text-auto-resize: true
+
+POIPanel < FlatPanel
+  margin: 0
+
+  Label
+    id: POILabel
+    text: Points Of Interest
+    anchors.horizontalCenter: parent.horizontalCenter
+    anchors.top: parent.top
+    margin-top: 10
+    font: Verdana Bold-11px
+    text-auto-resize: true
+
+  HorizontalSeparator
+    anchors.left: POILabel.left
+    anchors.right: POILabel.right
+    anchors.top: POILabel.bottom
+
+  UIScrollArea
+    id: POINavigator
+    anchors.top: POILabel.bottom
+    anchors.bottom: POISearch.top
+    anchors.right: parent.right
+    anchors.left: parent.left
+    margin: 10
+    margin-bottom: 50
+    image-source: /images/ui/panel_flat
+    image-border: 1
+    vertical-scrollbar: POINavigatorScrollBar
+    padding: 5
+    padding-top: 30
+    text: Navigator
+    text-align: top
+    text-offset: 0 5
+    layout:
+      type: verticalBox
+      spacing: 1
+
+  VerticalScrollBar
+    id: POINavigatorScrollBar
+    anchors.top: POINavigator.top
+    anchors.bottom: POINavigator.bottom
+    anchors.right: POINavigator.right
+    margin-right: 0
+    pixels-scroll: true
+    step: 50
+
+  Label
+    id: POISearchComboBoxLabel
+    text: Search Filter:
+    anchors.top: POINavigator.bottom
+    anchors.left: parent.left
+    margin-top: 25
+    margin-left: 15
+    text-auto-resize: true
+
+  RoundCheckBox
+    id: exactNameCheckBox
+    anchors.left: POISearchComboBox.left
+    anchors.bottom: POISearchComboBox.top
+    margin-bottom: 5
+    margin-left: 0
+    size: 22 22
+    text: Exact Name
+    text-auto-resize: true
+    phantom: false
+
+  ComboBox
+    id: POISearchComboBox
+    anchors.top: POINavigator.bottom
+    anchors.right: parent.right
+    anchors.left: POISearchComboBoxLabel.right
+    margin-top: 25
+    margin-right: 10
+    margin-left: 10
+    text-offset: -5 0
+    text-align: left
+
+  TextEdit
+    id: POISearch
+    anchors.top: parent.verticalCenter
+    anchors.left: parent.left
+    anchors.right: parent.right
+    margin: 10
+    margin-top: 100
+    placeholder: Search points of interest
+    placeholder-color: #ffffff77
+
+  UIScrollArea
+    id: POISearchResults
+    anchors.top: POISearch.bottom
+    anchors.bottom: parent.bottom
+    anchors.right: parent.right
+    anchors.left: parent.left
+    margin: 10
+    image-source: /images/ui/panel_flat
+    image-border: 1
+    vertical-scrollbar: POISearchScrollBar
+    padding: 10
+    padding-right: 14
+    opacity: 1
+    shadow: true
+    layout:
+      type: verticalBox
+      align-top: true
+      spacing: 1
+    $disabled:
+      text: Search results
+      opacity: 0.5
+
+  VerticalScrollBar
+    id: POISearchScrollBar
+    anchors.top: POISearchResults.top
+    anchors.bottom: POISearchResults.bottom
+    anchors.right: POISearchResults.right
+    margin-right: 0
+    pixels-scroll: true
+    step: 50
+    opacity: 1
+    $disabled:
+      opacity: 0.5
+
+// Navigator entries
+
+POINavigatorCategory < Panel
+  padding-left: 0
+  padding-right: 14
+
+  Panel
+    id: poiListing
+    anchors.top: parent.top
+    anchors.left: parent.left
+    anchors.right: parent.right
+    text-align: left
+    height: 40
+    font: Verdana Bold-11px
+    text-offset: 15 0
+    image-source: /game_minimap/images/panelb
+    phantom: false
+    $hover:
+      change-cursor-image: true
+      cursor: pointer
+
+    UIButton
+      id: dropDownButton
+      anchors.right: parent.right
+      anchors.verticalCenter: parent.verticalCenter
+      margin-right: 10
+      image-source: /game_minimap/images/downButton
+      image-color: white
+      opacity: 1
+      size: 20 20
+      $pressed:
+        image-color: #63615a
+      $hover:
+        opacity: 0.7
+        change-cursor-image: true
+        cursor: pointer
+
+  Panel
+    id: dropDownList
+    padding-top: 2
+    padding-left: 10
+    padding-right: 0
+    anchors.top: poiListing.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.bottom: parent.bottom
+    visible: false
+    layout:
+      type: verticalBox
+      align-top: true
+
+POIEntry < Panel
+  height: 30
+  margin-right: 8
+  image-source: /game_minimap/images/panelb
+  phantom: false
+  clipping: true
+  $hover:
+    image-source: /game_minimap/images/panela
+
+  Label
+    id: entryLabel
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.verticalCenter: parent.verticalCenter
+    margin-left: 10
+    margin-right: 5
+    height: 20
+    text-align: left
+    text-auto-resize: false
+    text-wrap: false
+    clipping: true
+
+POIEntryChild < Panel
+  height: 30
+  margin-right: 8
+
+  UIWidget
+    id: childIcon
+    image-source: /game_minimap/images/child
+    anchors.verticalCenter: parent.verticalCenter
+    anchors.left: parent.left
+
+  Panel
+    id: entry
+    height: 30
+    margin-left: 5
+    anchors.verticalCenter: parent.verticalCenter
+    anchors.left: childIcon.right
+    anchors.right: parent.right
+    image-source: /game_minimap/images/panelb
+    phantom: false
+    clipping: true
+    $hover:
+      image-source: /game_minimap/images/panela
+
+    Label
+      id: entryLabel
+      anchors.left: parent.left
+      anchors.right: parent.right
+      anchors.verticalCenter: parent.verticalCenter
+      margin-left: 12
+      margin-right: 14
+      height: 20
+      text-align: left
+      text-auto-resize: false
+      text-wrap: false
+      clipping: true
+
+// Minimap markers
+
+POIMarker < UIWidget
+  size: 20 20
+  phantom: false
+  image-auto-resize: true
+  opacity: 1
+
+  $hover:
+    opacity: 0.75
+    change-cursor-image: true
+    cursor: pointer
+
+// Tooltip templates
+
+POITooltipCard < UIWidget
+  UIWidget
+    id: background
+    anchors.fill: parent
+    image-fixed-ratio: false
+    image-smooth: true
+
+  Panel
+    id: content
+    anchors.fill: parent
+    margin: 8
+    layout:
+      type: verticalBox
+      align-top: true
+      spacing: 4
+
+POICardSectionText < FlatPanel
+  padding: 5
+  text-auto-resize: true
+  text-wrap: true
+  shadow: true
+
+POICardTitle < POICardSectionText
+  font: Verdana Bold-11px
+  text-align: center
+
+POICardSubtitle < POICardSectionText
+  text-align: center
+
+POICardOutfit < UICreature
+  size: 96 96
+  creature-center: true
+  creature-size: 96
+
+POICardCreature < UICreature
+  size: 40 40
+  creature-center: true
+  creature-size: 40
+
+POICardItem < UIItem
+  size: 40 40
+  padding: 1
+  text-align: top
+  virtual: true
+  phantom: true
+  draggable: false
+
+POICardGrid < FlatPanel
+  height: 40
+  layout:
+    type: verticalBox
+    align-top: true
+    spacing: 4
+
+POICardGridRow < Panel
+  height: 40
+  layout:
+    type: horizontalBox
+    spacing: 8
+
+// Main window
+
+MainWindow
+  size: 1000 600
+  text-align: top
+  !text: tr('Points Of Interest')
+  text-offset: 0 3
+  clipping: true
+  @onEscape: self:hide()
+
+  POIPanel
+    id: POIPanel
+    anchors.top: parent.top
+    anchors.bottom: parent.bottom
+    anchors.left: parent.left
+    width: 250
+
+  Panel
+    id: mapHolder
+    anchors.top: parent.top
+    anchors.bottom: parent.bottom
+    anchors.left: POIPanel.right
+    anchors.right: parent.right
+    clipping: true
+    phantom: false
+
+    Minimap
+      id: poiMinimap
+      anchors.fill: parent
+      margin: 0
+      clipping: true
+      zoom: 0
+      min-zoom: -5
+      max-zoom: 5
+      walkable: false
+      standard-markers: false
+
+  LegendPanel
+    id: legendPanel
+    anchors.top: parent.top
+    anchors.right: parent.right
+    margin: 10
+
+  POITextButton
+    id: closeButton
+    anchors.right: parent.right
+    anchors.bottom: parent.bottom
+    margin-right: 10
+    margin-bottom: 8
+    text: Close
+    width: 58
