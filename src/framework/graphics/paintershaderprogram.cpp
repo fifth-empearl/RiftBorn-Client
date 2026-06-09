@@ -43,6 +43,7 @@ void PainterShaderProgram::setupUniforms()
     bindUniformLocation(TEX2_UNIFORM, "u_Tex2");
     bindUniformLocation(TEX3_UNIFORM, "u_Tex3");
     bindUniformLocation(RESOLUTION_UNIFORM, "u_Resolution");
+    bindUniformLocation(TEXTURE_SIZE_UNIFORM, "u_TextureSize");
 
     setUniformValue(TRANSFORM_MATRIX_UNIFORM, m_transformMatrix);
     setUniformValue(PROJECTION_MATRIX_UNIFORM, m_projectionMatrix);
@@ -55,6 +56,7 @@ void PainterShaderProgram::setupUniforms()
     setUniformValue(TEX2_UNIFORM, 2);
     setUniformValue(TEX3_UNIFORM, 3);
     setUniformValue(RESOLUTION_UNIFORM, static_cast<float>(m_resolution.width()), static_cast<float>(m_resolution.height()));
+    setUniformValue(TEXTURE_SIZE_UNIFORM, static_cast<float>(m_textureSize.width()), static_cast<float>(m_textureSize.height()));
 }
 
 bool PainterShaderProgram::link()
@@ -129,6 +131,16 @@ void PainterShaderProgram::setResolution(const Size& resolution)
     bind();
     setUniformValue(RESOLUTION_UNIFORM, static_cast<float>(resolution.width()), static_cast<float>(resolution.height()));
     m_resolution = resolution;
+}
+
+void PainterShaderProgram::setTextureSize(const Size& textureSize)
+{
+    if (m_textureSize == textureSize)
+        return;
+
+    bind();
+    setUniformValue(TEXTURE_SIZE_UNIFORM, static_cast<float>(textureSize.width()), static_cast<float>(textureSize.height()));
+    m_textureSize = textureSize;
 }
 
 void PainterShaderProgram::updateTime()

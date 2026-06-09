@@ -110,6 +110,17 @@ local TEXT_SHADERS = { {
     frag = 'shaders/fragment/text_glow.frag' -- Soft glow effect (higher GPU cost)
 } }
 
+local XBR_HEADER = g_resources.readFileContents(resolvepath('shaders/fragment/xbr_header.glsl'))
+
+local function buildMapShaderFragment(fragment)
+    fragment = fragment:gsub('uniform%s+sampler2D%s+u_Tex0%s*;%s*', '')
+    fragment = fragment:gsub('uniform%s+float%s+u_XbrEnabled%s*;%s*', '')
+    fragment = fragment:gsub('uniform%s+vec2%s+u_TextureSize%s*;%s*', '')
+    fragment = fragment:gsub('varying%s+vec2%s+v_TexCoord%s*;%s*', '')
+    fragment = fragment:gsub('texture2D%s*%(%s*u_Tex0%s*,', 'mapSampleAt(')
+    return XBR_HEADER .. '\n' .. fragment
+end
+
 local function attachShaders()
     local map = modules.game_interface.getMapPanel()
     map:setShader('Default')
@@ -118,6 +129,24 @@ local function attachShaders()
     if player then
         player:setShader('Default')
         player:setMountShader('Default')
+    end
+end
+
+local registerMapShader = function(opts)
+    local fragmentShaderPath = resolvepath(opts.frag)
+
+    if fragmentShaderPath ~= nil then
+        local fragment = g_resources.readFileContents(fragmentShaderPath)
+        g_shaders.createFragmentShaderFromCode(opts.name, buildMapShaderFragment(fragment), opts.useFramebuffer or false)
+
+        if opts.tex1 then
+            g_shaders.addMultiTexture(opts.name, opts.tex1)
+        end
+        if opts.tex2 then
+            g_shaders.addMultiTexture(opts.name, opts.tex2)
+        end
+
+        g_shaders.setupMapShader(opts.name)
     end
 end
 
@@ -144,8 +173,10 @@ ShaderController = Controller:new()
 
 function ShaderController:onInit()
     for _, opts in pairs(MAP_SHADERS) do
-        registerShader(opts, 'setupMapShader')
+        registerMapShader(opts)
     end
+    g_shaders.createFragmentShaderFromCode('map_xbrz', XBR_HEADER .. '\nvoid main() { gl_FragColor = xbrSample(); }', false)
+    g_shaders.setupMapShader('map_xbrz')
 
     for _, opts in pairs(OUTFIT_SHADERS) do
         registerShader(opts, 'setupOutfitShader')

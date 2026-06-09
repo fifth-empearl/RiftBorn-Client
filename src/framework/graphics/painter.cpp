@@ -201,8 +201,15 @@ void Painter::setClipRect(const Rect& clipRect)
 }
 
 void Painter::setTexture(const TexturePtr& texture) {
-    if (texture) setTexture(texture->getId(), texture->getTransformMatrixId());
-    else resetTexture();
+    if (texture) {
+        if (m_shaderProgram)
+            m_shaderProgram->setTextureSize(texture->getSize());
+        setTexture(texture->getId(), texture->getTransformMatrixId());
+    } else {
+        if (m_shaderProgram)
+            m_shaderProgram->setTextureSize(Size(1, 1));
+        resetTexture();
+    }
 }
 
 void Painter::setTexture(uint32_t textureId, uint16_t textureMatrixId)

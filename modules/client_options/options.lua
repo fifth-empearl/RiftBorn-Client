@@ -111,7 +111,7 @@ end
 
 local function setupComboBox()
     local crosshairCombo = panels.interface:recursiveGetChildById('crosshair')
-    local antialiasingModeCombobox = panels.graphicsPanel:recursiveGetChildById('antialiasingMode')
+    local graphicsModeCombobox = panels.graphicsPanel:recursiveGetChildById('graphicsMode')
     local floorViewModeCombobox = panels.graphicsEffectsPanel:recursiveGetChildById('floorViewMode')
     local framesRarityCombobox = panels.interface:recursiveGetChildById('frames')
     local vocationPresetsCombobox = panels.keybindsPanel:recursiveGetChildById('list')
@@ -147,14 +147,18 @@ local function setupComboBox()
         -- classicControl and smartLeftClick, and their UI visibility
     end
 
-    for k, t in pairs({ 'None', 'Antialiasing', 'Smooth Retro' }) do
-        antialiasingModeCombobox:addOption(t, k - 1)
+    for _, option in ipairs({
+        { 'None', 0 },
+        { 'HD', 1 },
+        { 'Antialiasing', 2 },
+        { 'Smooth Retro', 3 }
+    }) do
+        graphicsModeCombobox:addOption(option[1], option[2])
     end
 
-    antialiasingModeCombobox.onOptionChange = function(comboBox, option)
-        setOption('antialiasingMode', comboBox:getCurrentOption().data)
+    graphicsModeCombobox.onOptionChange = function(comboBox, option)
+        setOption('graphicsMode', comboBox:getCurrentOption().data)
     end
-
 
     for k, t in pairs({ 'Normal', 'Fade', 'Locked', 'Always', 'Always with transparency' }) do
         floorViewModeCombobox:addOption(t, k - 1)
@@ -201,13 +205,13 @@ local function setup()
         local v = obj.value
 
         if type(v) == 'boolean' then
-            local value = g_settings.getBoolean(k)
+            local value = g_settings.getBoolean(k, v)
             setOption(k, value, true)
         elseif type(v) == 'number' then
-            local value = g_settings.getNumber(k)
+            local value = g_settings.getNumber(k, v)
             setOption(k, value, true)
         elseif type(v) == 'string' then
-            local value = g_settings.getString(k)
+            local value = g_settings.getString(k, v)
             setOption(k, value, true)
         end
     end

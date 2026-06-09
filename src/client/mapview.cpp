@@ -77,22 +77,27 @@ void MapView::registerEvents() {
             if (m_shaderSwitchDone && m_shader && m_fadeInTime > 0)
                 fadeOpacity = std::min<float>(m_fadeTimer.timeElapsed() / m_fadeInTime, 1.f);
 
-            if (m_shader) {
+            auto shader = m_shader;
+            if (!shader && g_app.isUpscaling())
+                shader = g_shaders.getShader("map_xbrz");
+
+            if (shader) {
                 const auto& center = srcRect.center();
                 const auto& globalCoord = Point(camera.x - m_drawDimension.width() / 2, -(camera.y - m_drawDimension.height() / 2)) * m_tileSize;
 
-                m_shader->bind();
-                m_shader->setUniformValue(ShaderManager::MAP_CENTER_COORD, center.x / static_cast<float>(m_rectDimension.width()), 1.f - center.y / static_cast<float>(m_rectDimension.height()));
-                m_shader->setUniformValue(ShaderManager::MAP_GLOBAL_COORD, globalCoord.x / static_cast<float>(m_rectDimension.height()), globalCoord.y / static_cast<float>(m_rectDimension.height()));
-                m_shader->setUniformValue(ShaderManager::MAP_ZOOM, m_pool->getScaleFactor());
+                shader->bind();
+                shader->setUniformValue(ShaderManager::MAP_CENTER_COORD, center.x / static_cast<float>(m_rectDimension.width()), 1.f - center.y / static_cast<float>(m_rectDimension.height()));
+                shader->setUniformValue(ShaderManager::MAP_GLOBAL_COORD, globalCoord.x / static_cast<float>(m_rectDimension.height()), globalCoord.y / static_cast<float>(m_rectDimension.height()));
+                shader->setUniformValue(ShaderManager::MAP_ZOOM, m_pool->getScaleFactor());
+                shader->setUniformValue(ShaderManager::MAP_XBR_ENABLED, g_app.isUpscaling() ? 1.f : 0.f);
 
                 Point last = transformPositionTo2D(camera, m_shaderPosition);
                 //Reverse vertical axis.
                 last.y = -last.y;
 
-                m_shader->setUniformValue(ShaderManager::MAP_WALKOFFSET, last.x / static_cast<float>(m_rectDimension.width()), last.y / static_cast<float>(m_rectDimension.height()));
+                shader->setUniformValue(ShaderManager::MAP_WALKOFFSET, last.x / static_cast<float>(m_rectDimension.width()), last.y / static_cast<float>(m_rectDimension.height()));
 
-                g_painter->setShaderProgram(m_shader);
+                g_painter->setShaderProgram(shader);
             }
 
             g_painter->setOpacity(fadeOpacity);
@@ -459,7 +464,7 @@ void MapView::updateRect(const Rect& rect) {
 
 void MapView::updateGeometry(const Size& visibleDimension)
 {
-    float scaleFactor = m_antiAliasingMode == Otc::ANTIALIASING_SMOOTH_RETRO ? 2.f : 1.f;
+    float scaleFactor = !g_app.isUpscaling() && m_antiAliasingMode == Otc::ANTIALIASING_SMOOTH_RETRO ? 2.f : 1.f;
 
     auto maxAwareRange = std::max<size_t>(visibleDimension.width(), visibleDimension.height());
 
@@ -501,7 +506,7 @@ void MapView::updateGeometry(const Size& visibleDimension)
     }
 
     g_mainDispatcher.addEvent([this, bufferSize] {
-        m_pool->getFrameBuffer()->resize(bufferSize);
+        m_pool->setFramebuffer(bufferSize);
     });
 
     const uint8_t left = std::min<uint8_t>(g_map.getAwareRange().left, (m_drawDimension.width() / 2) - 1);
@@ -707,7 +712,7 @@ void MapView::setAntiAliasingMode(const Otc::AntialiasingMode mode)
     m_antiAliasingMode = mode;
 
     g_mainDispatcher.addEvent([=, this] {
-        m_pool->getFrameBuffer()->setSmooth(mode != Otc::ANTIALIASING_DISABLED);
+        m_pool->getFrameBuffer()->setSmooth(!g_app.isUpscaling() && mode != Otc::ANTIALIASING_DISABLED);
     });
 
     updateGeometry(m_visibleDimension);

@@ -41,7 +41,8 @@ protected:
         TEX2_UNIFORM = 7,
         TEX3_UNIFORM = 8,
         RESOLUTION_UNIFORM = 9,
-        TRANSFORM_MATRIX_UNIFORM = 10
+        TRANSFORM_MATRIX_UNIFORM = 10,
+        TEXTURE_SIZE_UNIFORM = 20
     };
 
     friend class Painter;
@@ -63,6 +64,7 @@ public:
     void setColor(const Color& color);
     void setOpacity(float opacity);
     void setResolution(const Size& resolution);
+    void setTextureSize(const Size& textureSize);
     void updateTime();
 
     void addMultiTexture(const std::string& file);
@@ -92,6 +94,7 @@ private:
     const Matrix3* m_textureMatrix = nullptr;
 
     Size m_resolution;
+    Size m_textureSize;
 
     std::vector<TexturePtr> m_multiTextures;
 

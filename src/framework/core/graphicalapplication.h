@@ -24,6 +24,8 @@
 
 #include "application.h"
 
+#include <atomic>
+
 #include <framework/core/inputevent.h>
 #include <framework/graphics/declarations.h>
 
@@ -106,6 +108,9 @@ public:
     void setDrawTexts(const bool v) { m_drawText = v; }
     bool isDrawingTexts() { return m_drawText; }
 
+    void setUpscaling(bool enabled);
+    bool isUpscaling() const { return m_xbrzEnabled.load(std::memory_order_relaxed); }
+
     float getHUDScale() const;
     void setHUDScale(float v);
 
@@ -149,6 +154,7 @@ private:
     bool m_drawEffectOnTop{ false };
     bool m_drawText{ true };
     bool m_loadingAsyncTexture{ false };
+    std::atomic_bool m_xbrzEnabled{ true };
 
     float m_creatureInformationScale{ DEFAULT_DISPLAY_DENSITY };
     float m_animatedTextScale{ DEFAULT_DISPLAY_DENSITY };

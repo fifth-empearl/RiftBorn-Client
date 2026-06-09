@@ -3,14 +3,14 @@ UIWidget
   visible: false
 
   Label
-    !text: 'Antialiasing Mode:'
+    !text: tr('Graphics mode:')
     anchors.left: parent.left
-    margin-left: 18
+    margin-left: 50
     color: #c0c0c0ff
     anchors.top: parent.top
 
   QtComboBox
-    id: antialiasingMode
+    id: graphicsMode
     width: 180
     margin-left: 10
     anchors.verticalCenter: prev.verticalCenter
@@ -21,7 +21,7 @@ UIWidget
     anchors.left: parent.left
     anchors.right: parent.right
     anchors.top: prev.bottom
-    margin-top: 7
+    margin-top: 15
     height: 22
   
     OptionCheckBoxMarked

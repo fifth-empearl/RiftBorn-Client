@@ -252,7 +252,7 @@ void DrawPoolManager::drawPool(const DrawPoolType type) {
 
     drawObjects(pool);
 
-    if (pool->hasFrameBuffer()) {
+    if (pool->hasFrameBuffer() && pool->m_framebuffer->canDraw()) {
         g_painter->resetState();
 
         if (pool->m_beforeDraw) pool->m_beforeDraw();

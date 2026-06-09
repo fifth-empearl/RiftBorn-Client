@@ -369,6 +369,11 @@ void GraphicalApplication::setLoadingAsyncTexture(bool v) {
         m_drawEvents->onLoadingAsyncTextureChanged(v);
 }
 
+void GraphicalApplication::setUpscaling(const bool enabled)
+{
+    m_xbrzEnabled.store(enabled, std::memory_order_relaxed);
+}
+
 void GraphicalApplication::doScreenshot(std::string file)
 {
     if (file.empty()) {

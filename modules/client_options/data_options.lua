@@ -408,11 +408,19 @@ return {
     showDragIcon        = {
         value = true,
     },
-    antialiasingMode                  = {
+    graphicsMode                      = {
         value = 1,
         action = function(value, options, controller, panels, extraWidgets)
-            panels.gameMapPanel:setAntiAliasingMode(value)
-            panels.graphicsPanel:recursiveGetChildById('antialiasingMode'):setCurrentOptionByData(value, true)
+            local antialiasingMode = 0
+            if value == 2 then
+                antialiasingMode = 1
+            elseif value == 3 then
+                antialiasingMode = 2
+            end
+
+            g_app.setUpscaling(value == 1)
+            panels.gameMapPanel:setAntiAliasingMode(antialiasingMode)
+            panels.graphicsPanel:recursiveGetChildById('graphicsMode'):setCurrentOptionByData(value, true)
         end
     },
     shadowFloorIntensity              = {
